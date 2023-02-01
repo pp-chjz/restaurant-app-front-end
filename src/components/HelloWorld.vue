@@ -32,10 +32,33 @@
 </template>
 
 <script>
+import MenuApi from "@/store/MenuApi.js"
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data(){
+    return{
+      menu: "",
+      menus:{},
+    }
+  },
+  async created(){
+    console.log("test")
+    await MenuApi.dispatch("fetchMenu")
+      this.menus = MenuApi.getters.getMenus
+      console.log(this.menus)
+    await this.fetchMenu()
+  },
+  methods:{
+    async fetchMenu(){
+      console.log("fetchMenu.")
+      await MenuApi.dispatch("fetchMenu")
+      this.menus = MenuApi.getters.getMenus
+      console.log(this.menus)
+    }
   }
 }
 </script>
