@@ -10,7 +10,7 @@
       <input v-model="form.password" placeholder="Password" />
       <p>Confirm Password</p>
       <input v-model="form.password_confirmation" placeholder="Password" />
-      
+      <p>commit tmp</p>
     </div> <br>
     <c-button variant-color="blue" variant="outline" size="sm" @click="summit">
         summit
