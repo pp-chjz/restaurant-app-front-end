@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
+import LoginView from '../views/auth/LoginView.vue'
+import FirstPage from '../views/FirstPage.vue'
+
 
 Vue.use(VueRouter)
 
@@ -23,7 +26,17 @@ const routes = [
     path: '/register',
     name: 'register',
     component: RegisterView
-  }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/home',
+    name: 'first',
+    component: FirstPage
+  },
 ]
 
 const router = new VueRouter({

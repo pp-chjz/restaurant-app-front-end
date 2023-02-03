@@ -7,11 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@chakra-ui/vue": "^0.6.2",
+    "axios": "^1.3.1",
     "core-js": "^3.8.3",
+    "emotion": "^10.0.27",
     "node-sass": "^8.0.0",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -20,6 +23,7 @@
     "@vue/cli-service": "~5.0.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "vue-cli-plugin-chakra-ui": "~1.0.3",
     "vue-template-compiler": "^2.6.14"
   }
 }
