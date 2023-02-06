@@ -1,14 +1,75 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link> |
-    </nav>
+    <c-simple-grid
+    class="navbar"
+    :columns="[3]"
+      as="nav"
+      px="2vw"
+      py="5"
+      pr="60vh"
+      w="100%"
+      h="80px"
+      alignItems="center"
+      justifyContent="space-around"
+      :display="['block', 'grid', 'grid', 'grid']"
+    >
+    
+    <c-flex
+        wrap="wrap"
+        justify="center"
+        :direction="['column', 'row', 'row', 'row']"
+      >
+      <router-link to="/">
+        <c-menu :close-on-select="false">
+          <c-menu-button mx="1" variant-color="red">
+            Home
+          </c-menu-button>
+        </c-menu>
+      </router-link>
+
+      <router-link to="/about">
+        <c-menu :close-on-select="false">
+          <c-menu-button mx="1" variant-color="red">
+            About
+          </c-menu-button>
+        </c-menu>
+      </router-link>
+
+      <router-link to="/register">
+        <c-menu :close-on-select="false">
+          <c-menu-button mx="1" variant-color="red">
+            Register
+          </c-menu-button>
+        </c-menu>
+      </router-link>
+
+      <router-link to="/login">
+        <c-menu :close-on-select="false">
+          <c-menu-button mx="1" variant-color="red">
+            Login
+          </c-menu-button>
+        </c-menu>
+      </router-link>
+    </c-flex>
+    </c-simple-grid>
     <router-view/>
   </div>
 </template>
+
+<script>
+import AuthUser from '@/store/AuthUser.js'
+import { CText, CFlex, CMenu, CMenuButton, CSimpleGrid } from '@chakra-ui/vue';
+export default {
+  name: "app",
+  components: { 
+    CText, 
+    CMenu,
+    CMenuButton,
+    CSimpleGrid,
+    CFlex
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -31,4 +92,13 @@ nav {
     }
   }
 }
+
+.navbar {
+  background:#1B2527;
+}
+
+.homeImage {
+  height: 4rem;
+}
 </style>
+
