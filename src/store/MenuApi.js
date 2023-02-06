@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import backendInstance from '../services/backendInstance'
+import AuthService from '../services/AuthService'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,9 @@ export default new Vuex.Store({
   actions: {
     async fetchMenu({ commit }) {
         console.log("fetchMenu")
-        let res = await backendInstance.get(`/api/menu`);
+        let header = AuthService.getApiHeader();
+        console.log("header = " , header)
+        let res = await backendInstance.get(`/api/menu` , header);
         commit("fetch", {res} );
     }
   },

@@ -10,6 +10,20 @@ export default {
     return jwt;
   },
 
+  getApiHeader() {
+    if (this.jwt !== "" && this.jwt !== undefined) {
+      return {
+        headers: {
+          Authorization: `Bearer ${this.jwt}`,
+        },
+      };
+    } else {
+      if (JSON.parse(localStorage.getItem(auth_key)) !== null) {
+        this.jwt = JSON.parse(localStorage.getItem(auth_key)).jwt;
+      }
+    }
+  },
+
   async register({
     username,
     email,
