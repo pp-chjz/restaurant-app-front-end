@@ -1,5 +1,13 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <img class="aboutImage" src="@/assets/saen.png">
   </div>
 </template>
+
+<style>
+
+.aboutImage {
+  height: 13rem;
+  padding-top: 1%;
+}
+</style>
