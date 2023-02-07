@@ -1,15 +1,4 @@
 <template>
-    <!-- <div class="login">
-      <h1>This is an login page</h1>
-      <p>Email</p>
-      <input v-model="form.email" placeholder="Email" /> 
-      <p>Password</p>
-      <input v-model="form.password" placeholder="Password" />
-      
-    </div> <br>
-    <c-button variant-color="blue" variant="outline" size="sm" @click="summit">
-        summit
-    </c-button> -->
   <div>
     <c-grid template-columns="repeat(2, 1fr)">
       <c-box borderWidth="0.1rem" 
