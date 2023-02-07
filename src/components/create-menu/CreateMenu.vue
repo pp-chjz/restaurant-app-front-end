@@ -133,7 +133,7 @@ import { CInput,CSelect,CNumberInput,
   CNumberDecrementStepper,
   CButton, CStack, CImage,
   CBox, CGrid, CInputGroup,
-  CFormControl, CFormLabel, CHeading,  } from "@chakra-ui/vue";
+  CFormControl, CFormLabel, CHeading,CFlex  } from "@chakra-ui/vue";
 
 export default {
     components: {
@@ -149,7 +149,7 @@ export default {
         CFormControl,
         CGrid, CImage,
         CHeading, CInputGroup, CFormLabel,
-        CStack
+        CStack, CFlex
     },
     data(){
         return{

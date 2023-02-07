@@ -188,6 +188,9 @@ export default {
     async summit(){
       console.log(this.form)
       let res = await AuthUser.dispatch('register',this.form)
+      if (res.success) {
+            this.$router.push("/home");
+        }
     }
   }
 }
