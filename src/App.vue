@@ -2,7 +2,7 @@
   <div id="app">
     <c-simple-grid
     class="navbar"
-    :columns="[3]"
+    :columns="[1]"
       as="nav"
       px="2vw"
       py="5"
@@ -50,14 +50,17 @@
           </c-menu-button>
         </c-menu>
       </router-link>
-
-      <router-link to="/createMenu">
-        <c-menu :close-on-select="false">
-          <c-menu-button mx="1" variant-color="red">
-            CreateMenu
-          </c-menu-button>
-        </c-menu>
-      </router-link>
+      
+      <div>
+        <router-link to="/createMenu">
+          <c-menu :close-on-select="false">
+            <c-menu-button mx="1" variant-color="red">
+              CreateMenu
+            </c-menu-button>
+          </c-menu>
+        </router-link>
+      </div>
+      
     </c-flex>
     </c-simple-grid>
     <router-view/>
@@ -65,7 +68,7 @@
 </template>
 
 <script>
-import AuthUser from '@/store/AuthUser.js'
+import AuthUser from '@/store/AuthUser'
 import { CText, CFlex, CMenu, CMenuButton, CSimpleGrid } from '@chakra-ui/vue';
 export default {
   name: "app",
@@ -75,7 +78,7 @@ export default {
     CMenuButton,
     CSimpleGrid,
     CFlex
-  },
+  }
 };
 </script>
 
