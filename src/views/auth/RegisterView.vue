@@ -1,21 +1,4 @@
 <template>
-  <!-- <div>
-    <div class="register">
-      <h1>This is an register page</h1>
-      <p>Email</p>
-      <input v-model="form.email" placeholder="Email" /> 
-      <p>username</p>
-      <input v-model="form.username" placeholder="username" />
-      <p>Password</p>
-      <input v-model="form.password" placeholder="Password" />
-      <p>Confirm Password</p>
-      <input v-model="form.password_confirmation" placeholder="Password" />
-      <p>commit tmp</p>
-    </div> <br>
-    <c-button variant-color="blue" variant="outline" size="sm" @click="summit">
-        summit
-    </c-button>
-  </div> -->
   <div class="register">
     <c-grid template-columns="repeat(2, 1fr)">
       <c-box borderWidth="0.1rem" 

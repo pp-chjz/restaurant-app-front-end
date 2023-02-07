@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import FirstPage from '../views/FirstPage.vue'
+import CreateMenuView from '../views/CreateMenuView.vue'
 
 
 Vue.use(VueRouter)
@@ -36,6 +37,11 @@ const routes = [
     path: '/home',
     name: 'first',
     component: FirstPage
+  },
+  {
+    path: '/createMenu',
+    name: 'createMenu',
+    component: CreateMenuView
   },
 ]
 
