@@ -44,6 +44,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getApiHeader() {
+        return {
+          headers: {
+            Authorization: `Bearer ${this.jwt}`,
+          }
+      }
+    },
     async register({ commit }, body) {
       let res = await AuthService.register(body);
       console.log("res = " , res);

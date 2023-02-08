@@ -12,12 +12,14 @@ export default {
 
   getApiHeader() {
     if (this.jwt !== "" && this.jwt !== undefined) {
+      console.log("if" , this.jwt)
       return {
         headers: {
           Authorization: `Bearer ${this.jwt}`,
         },
       };
     } else {
+      console.log("else if" , this.jwt)
       if (JSON.parse(localStorage.getItem(auth_key)) !== null) {
         this.jwt = JSON.parse(localStorage.getItem(auth_key)).jwt;
       }

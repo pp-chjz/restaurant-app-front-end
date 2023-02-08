@@ -112,6 +112,18 @@
           </c-stack>
         </c-box>
 
+        <c-box bg="tomato" marginTop="10">
+          <p>select ingredient in this menu</p>
+          <c-checkbox-group v-model="ingredient" is-inline spacing="8" variant-color="blue" :default-value="['itachi', 'kisame']">
+            <c-checkbox value="itachi">Itachi</c-checkbox>
+            <c-checkbox value="madara">Madara</c-checkbox>
+            <c-checkbox value="kisame">Kisame</c-checkbox>
+          </c-checkbox-group>
+        </c-box>
+        <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
+          Add Ingredient
+        </c-button>
+
         <c-button @click="createMenu" mr="4%" mb="3%" mt="8%" width="36%" variant-color="yellow" variant="solid" size="lg">
           Create Menu
         </c-button>
@@ -126,6 +138,9 @@
 <script>
 import MenuApi from "@/store/MenuApi.js"
 import AuthUser from '@/store/AuthUser.js'
+import AuthService from '@/services/AuthService'
+import IngredientApi from '@/store/IngredientApi'
+
 import { CInput,CSelect,CNumberInput,
   CNumberInputField,
   CNumberInputStepper,
@@ -133,7 +148,7 @@ import { CInput,CSelect,CNumberInput,
   CNumberDecrementStepper,
   CButton, CStack, CImage,
   CBox, CGrid, CInputGroup,
-  CFormControl, CFormLabel, CHeading,CFlex  } from "@chakra-ui/vue";
+  CFormControl, CFormLabel, CHeading,CFlex,CCheckbox, CCheckboxGroup  } from "@chakra-ui/vue";
 
 export default {
     components: {
@@ -149,12 +164,14 @@ export default {
         CFormControl,
         CGrid, CImage,
         CHeading, CInputGroup, CFormLabel,
-        CStack, CFlex
+        CStack, CFlex,CCheckbox, CCheckboxGroup,
     },
     data(){
         return{
             catagories:'',
             menu_status:"",
+            ingredient:[],
+            all_ingredient:[],
             form:{
                 menu_id:"test",
                 catagories:0,
@@ -171,6 +188,10 @@ export default {
     },
     async created(){
         console.log("CreateMenuPage Created");
+        IngredientApi.dispatch("fetchIngredient");
+        this.all_ingredient = IngredientApi.getters.getIngredients;
+        console.log("all ingredient = " ,this.all_ingredient);
+        // console.log("jwt = " , AuthUser.getters.jwt )
     },
     methods:{
         async createMenu(){
@@ -181,6 +202,10 @@ export default {
             console.log(this.form)
             let res = MenuApi.dispatch("createMenu" ,this.form);
             console.log(res);
+        },
+
+        async addIngredient(){
+          console.log("ingredient = ", this.ingredient);
         }
     }
 }
