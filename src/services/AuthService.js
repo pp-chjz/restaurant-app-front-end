@@ -46,16 +46,15 @@ export default {
         success: true,
         user: res.data.user,
     };
-      if (res.status === 201) {
-        let autoLogin = await AuthUser.dispatch("login", body);
-        console.log("autologin = " , autoLogin.jwt);
-        return {
-          success: true,
-          user: res.data.user,
-          jwt: autoLogin.jwt,
-        };
-        this.$router.push("/home");
-      }
+    if (res.status === 201) {
+      let autoLogin = await AuthUser.dispatch("login", body);
+      console.log("autologin = " , autoLogin.jwt);
+      return {
+        success: true,
+        user: res.data.user,
+        jwt: autoLogin.jwt,
+      };
+    }
     } catch (e) {
       //console.error(error);
       if (e.response.status === 400) {
