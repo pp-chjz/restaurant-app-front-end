@@ -114,6 +114,13 @@
         </c-input-group>
       </c-form-control>
 
+      <c-text size="md" mt="2rem" color="white">
+        Already have an account?
+            <router-link class="shadowLink" to="/login" >
+              <c-text as="u" color="primary">Sign in</c-text>
+            </router-link>
+      </c-text>
+
       <c-button @click="summit" mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
         Create account
       </c-button>
@@ -136,7 +143,7 @@ import { CInputGroup } from '@chakra-ui/vue'
 import { CInputRightElement } from '@chakra-ui/vue'
 import { CImage } from '@chakra-ui/vue'
 import { CFormControl } from '@chakra-ui/vue'
-import { CFormLabel, CGrid, CGridItem } from '@chakra-ui/vue'
+import { CFormLabel, CGrid, CGridItem, CText } from '@chakra-ui/vue'
 
 export default {
   name: 'HelloWorld',
@@ -155,7 +162,8 @@ export default {
     CFormControl,
     CFormLabel,
     CGrid,
-    CGridItem
+    CGridItem,
+    CText
   },
   data(){
     return{
