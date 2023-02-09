@@ -27,7 +27,7 @@ export default new Vuex.Store({
         let header = AuthService.getApiHeader();
         console.log("header = " , header)
         let res = await backendInstance.get(`/api/ingredient` , header);
-        console.log("fetchIngredient" , res)
+        console.log("fetchIngredient" , res.data)
         commit("fetch", {res} );
     },
     async createIngredient({ commit } , payload){

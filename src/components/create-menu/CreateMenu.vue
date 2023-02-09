@@ -28,7 +28,7 @@
         > {{ "Create Menu" }} </c-heading>
         
       <c-flex>
-      <c-form-control>
+      <c-form-control w="100%">
         
         <c-box w="20%" mt="4%" ml="30%">
           <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="70%" />
@@ -114,11 +114,18 @@
 
         <c-box bg="tomato" marginTop="10">
           <p>select ingredient in this menu</p>
-          <c-checkbox-group v-model="ingredient" is-inline spacing="8" variant-color="blue" :default-value="['itachi', 'kisame']">
-            <c-checkbox value="itachi">Itachi</c-checkbox>
-            <c-checkbox value="madara">Madara</c-checkbox>
-            <c-checkbox value="kisame">Kisame</c-checkbox>
-          </c-checkbox-group>
+          <ul class="checkboxes">
+            <div v-for="item in all_ingredient" :key="item.id">
+            <label>
+            <input
+              type="checkbox"
+              :value="item.id"
+              v-model="form.ingredients"
+            />
+            {{ item.ingredient_name_ENG }}</label>
+            </div>
+          </ul>
+          <p>{{ form.ingredients }}</p>
         </c-box>
         <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
           Add Ingredient
@@ -182,13 +189,14 @@ export default {
                 price:1,
                 QTY:1,
                 size:"",
-                comment:""
+                comment:"",
+                ingredients:[]
             }
         }
     },
     async created(){
         console.log("CreateMenuPage Created");
-        IngredientApi.dispatch("fetchIngredient");
+        await IngredientApi.dispatch("fetchIngredient");
         this.all_ingredient = IngredientApi.getters.getIngredients;
         console.log("all ingredient = " ,this.all_ingredient);
         // console.log("jwt = " , AuthUser.getters.jwt )
