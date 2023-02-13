@@ -18,14 +18,26 @@
         bg="#D9D9D9"
       >
 
+      <c-box 
+        w="100%"
+        height="10vh"
+        borderColor="gray.100"
+        borderWidth="0.1rem"
+        borderRadius="0.5rem"
+        bg="#EDF2F7"
+      >
         <c-heading
         size="xl"
+        textAlign="center"
         color="black"
         opacity="0.8"
         fontWeight="normal"
         lineHeight="1.5"
+        mt="1%"
         white-space="pre-line"
         > {{ "Create Menu" }} </c-heading>
+      </c-box>
+
         
       <c-flex>
       <c-form-control w="100%">
@@ -38,19 +50,20 @@
           <c-input v-model="form.name_ENG" placeholder="name_ENG" w="180%" borderColor="gray.800" mt="10%"/>
           <c-input v-model="form.name_TH" placeholder="name_TH" mt="8%" w="180%" borderColor="gray.800"/>
 
-          <c-stack should-wrap-children is-inline>
-            <c-box w="120%">
-              <c-select v-model="catagories" placeholder="Select Catagories" size="md" mt="12%" borderColor="gray.800">
+          <c-stack w="180%" m="auto" should-wrap-children is-inline>
+            <c-box w="162%">
+              <c-select v-model="catagories" placeholder="Select Catagories"  size="md" mt="12%" borderColor="gray.800">
                 <option value="1">Food</option>
                 <option value="2">Drink</option>
                 <option value="3">Main dish</option>
                 <option value="4">Dessert</option>
+                
               </c-select>
             </c-box>
 
             <!-- Select Status -->
-            <c-box w="260%">
-              <c-select v-model="menu_status" placeholder="Select status" size="md" mt="7%" ml="10%" borderColor="gray.800">
+            <c-box w="184%">
+              <c-select v-model="menu_status" placeholder="Select status" size="md" mt="13%" ml="44%" borderColor="gray.800">
                 <option value="1">In stock</option>
                 <option value="2">Out of stock</option>
               </c-select>
@@ -107,7 +120,7 @@
             </c-box>
 
             <c-box w="217%">
-              <c-input v-model="form.comment" placeholder="comment" mt="6%" ml="6%" borderColor="gray.800"/>
+              <c-input v-model="form.comment" placeholder="comment" mt="5.7%" ml="6%" borderColor="gray.800"/>
             </c-box>
           </c-stack>
         </c-box>
@@ -127,6 +140,7 @@
           </ul>
           <p>{{ form.ingredients }}</p>
         </c-box>
+
         <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
           Add Ingredient
         </c-button>
@@ -155,7 +169,8 @@ import { CInput,CSelect,CNumberInput,
   CNumberDecrementStepper,
   CButton, CStack, CImage,
   CBox, CGrid, CInputGroup,
-  CFormControl, CFormLabel, CHeading,CFlex,CCheckbox, CCheckboxGroup  } from "@chakra-ui/vue";
+  CFormControl, CFormLabel, CHeading,CFlex,CCheckbox, CCheckboxGroup,
+  CText  } from "@chakra-ui/vue";
 
 export default {
     components: {
@@ -167,7 +182,7 @@ export default {
         CNumberIncrementStepper,
         CNumberDecrementStepper,
         CButton,
-        CBox,
+        CBox, CText,
         CFormControl,
         CGrid, CImage,
         CHeading, CInputGroup, CFormLabel,

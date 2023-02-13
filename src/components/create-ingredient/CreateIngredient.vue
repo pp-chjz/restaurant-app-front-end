@@ -1,29 +1,84 @@
 <template>
   <div>
-    <h1>This is an CreateIngredient page</h1>
-    <br><br><br><br><br><br>
-    <c-input v-model="form.ingredient_name_ENG" placeholder="name_ENG" />
-    <c-input v-model="form.ingredient_name_TH" placeholder="name_TH" />
+    <c-box
+        x="4rem" 
+        py="1rem"
+        height="90vh"
+        width="full" 
+        maxWidth="500vh"
+        bg="#252836"
+    >
+    <c-box 
+        borderColor="gray.100"
+        borderWidth="0.1rem"
+        borderRadius="0.5rem"
+        mt="100%"
+        w="93%"
+        height="85vh"
+        m="auto"
+        p="1rem"
+        bg="#D9D9D9"
+      >
+        <c-box 
+            w="100%"
+            py="10px"
+            height="10vh"
+            borderColor="gray.100"
+            borderWidth="0.1rem"
+            borderRadius="0.5rem"
+            bg="#EDF2F7"
+        >
+        <c-text 
+            fontSize="4xl" 
+            textAlign="center" 
+            color="black"> {{ "Create Ingredient" }}
+            </c-text>
+    </c-box>
+      
 
-    <c-select v-model="ingredient_status" placeholder="Select status">
-      <option value="1">In stock</option>
-      <option value="2">Out of stock</option>
-    </c-select>
+      <c-flex justify="center" mt="2%">
+      <c-form-control w="100%">
+        <c-flex justify="center" mt="2%">
+            <c-input v-model="form.ingredient_name_ENG" placeholder="name_ENG" justify="center"  w="40%" borderColor="gray.800"/>
+        </c-flex>
 
-    <p>select QTY</p>
-    <template>
-        <c-number-input v-model="form.QTY">
-            <c-number-input-field type="number" />
-            <c-number-input-stepper>
-            <c-numberIncrement-stepper />
-            <c-number-decrement-stepper />
-            </c-number-input-stepper>
-        </c-number-input>
-    </template>
+        <c-flex justify="center" mt="1%">
+            <c-input v-model="form.ingredient_name_TH" placeholder="name_TH" w="40%" borderColor="gray.800"/>
+        </c-flex>
 
-    <br><br>
-    <c-button @click="createIngredient" variant-color="green">Create Ingredient</c-button>
+        <c-text fontSize="xl" mt="2rem" mr="31%">{{ "Select Qauntity" }}</c-text>
 
+        <c-flex justify="center">
+            <c-stack should-wrap-children is-inline w="40%">
+                <c-box w="160%">
+                    <c-number-input v-model="form.QTY" >
+                    <c-number-input-field type="number" borderColor="gray.800" />
+                    <c-number-input-stepper>
+                    <c-numberIncrement-stepper />
+                    <c-number-decrement-stepper />
+                    </c-number-input-stepper>
+                    </c-number-input>
+                </c-box>
+            
+
+                <c-box w="193%" ml="95%">
+                    <c-select v-model="ingredient_status"  placeholder="Select status" borderColor="gray.800">
+                        <option value="1">In stock</option>
+                        <option value="2">Out of stock</option>
+                    </c-select>
+                </c-box>
+            </c-stack> 
+        </c-flex>
+
+        <c-flex justify="center">
+            <c-button  @click="createIngredient" mt="15%" width="40%" variant-color="green" variant="solid" size="lg">
+                Create Ingredient
+            </c-button>
+        </c-flex>
+        </c-form-control>
+        </c-flex>
+        </c-box>
+    </c-box>
   </div>
 </template>
 
@@ -35,7 +90,8 @@ import { CInput,CSelect,CNumberInput,
   CNumberInputStepper,
   CNumberIncrementStepper,
   CNumberDecrementStepper,
-  CButton ,  } from "@chakra-ui/vue";
+  CButton, CText, CStack, CBox,
+  CFlex, CHeading, CFormControl } from "@chakra-ui/vue";
 
 export default {
     components: {
@@ -46,7 +102,8 @@ export default {
         CNumberInputStepper,
         CNumberIncrementStepper,
         CNumberDecrementStepper,
-        CButton ,
+        CButton, CText, CStack, CBox,
+        CFlex, CHeading, CFormControl
     },
     data(){
         return{
