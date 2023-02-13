@@ -6,6 +6,7 @@ import LoginView from '../views/auth/LoginView.vue'
 import FirstPage from '../views/FirstPage.vue'
 import CreateMenuView from '../views/CreateMenuView.vue'
 import CreateIngredientView from '../views/CreateIngredientView.vue'
+import AllMenuView from '../views/AllMenuView.vue'
 
 
 Vue.use(VueRouter)
@@ -48,6 +49,11 @@ const routes = [
     path: '/createIngredientView',
     name: 'createIngredientView',
     component: CreateIngredientView
+  },
+  {
+    path: '/allMenuView',
+    name: 'allMenuView',
+    component: AllMenuView
   },
 ]
 

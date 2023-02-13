@@ -70,6 +70,16 @@
           </c-menu>
         </router-link>
       </div>
+
+      <div>
+        <router-link to="/allMenuView">
+          <c-menu :close-on-select="false">
+            <c-menu-button mx="1" variant-color="red">
+              allMenu
+            </c-menu-button>
+          </c-menu>
+        </router-link>
+      </div>
       
     </c-flex>
     </c-simple-grid>
