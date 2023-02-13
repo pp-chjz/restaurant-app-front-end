@@ -180,7 +180,7 @@ export default {
             ingredient:[],
             all_ingredient:[],
             form:{
-                menu_id:"test",
+                menu_id:"false",
                 catagories:0,
                 sort_menu:1,
                 name_ENG:"",
