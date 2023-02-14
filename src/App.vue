@@ -55,7 +55,7 @@
         <router-link to="/createMenu">
           <c-menu :close-on-select="false">
             <c-menu-button mx="1" variant-color="red">
-              CreateMenu
+              Creat Menu
             </c-menu-button>
           </c-menu>
         </router-link>
@@ -65,7 +65,7 @@
         <router-link to="/createIngredientView">
           <c-menu :close-on-select="false">
             <c-menu-button mx="1" variant-color="red">
-              createIngredient
+              Create Ingredient
             </c-menu-button>
           </c-menu>
         </router-link>
@@ -75,7 +75,7 @@
         <router-link to="/allMenuView">
           <c-menu :close-on-select="false">
             <c-menu-button mx="1" variant-color="red">
-              allMenu
+              All Menu
             </c-menu-button>
           </c-menu>
         </router-link>

@@ -39,7 +39,7 @@
       </c-box>
 
         
-      <c-flex>
+      <c-flex >
       <c-form-control w="100%">
         
         <c-box w="20%" mt="4%" ml="30%">
@@ -47,8 +47,10 @@
           <c-button w="49%" size="md" ml="70%">
             Add picture
           </c-button>
-          <c-input v-model="form.name_ENG" placeholder="name_ENG" w="180%" borderColor="gray.800" mt="10%"/>
-          <c-input v-model="form.name_TH" placeholder="name_TH" mt="8%" w="180%" borderColor="gray.800"/>
+          <c-text mr="66%" mt="15%" fontWeight="normal">English Name </c-text>
+          <c-input v-model="form.name_ENG" placeholder="ชื่อเมนูภาษาอังกฤษ" w="180%" borderColor="gray.800" mt="3%"/>
+          <c-text mr="74%" mt="10%" fontWeight="normal">Thai Name</c-text>
+          <c-input v-model="form.name_TH" placeholder="ชื่อเมนูภาษาไทย" mt="3%" w="180%" borderColor="gray.800"/>
 
           <c-stack w="180%" m="auto" should-wrap-children is-inline>
             <c-box w="162%">
@@ -112,40 +114,52 @@
         
           <!-- Select Size -->
           <c-stack should-wrap-children is-inline>
-            <c-box w="120%">
+            <c-box w="220%">
               <c-select v-model="form.size" placeholder="Select size" mt="18%" borderColor="gray.800">
                 <option value="s">Small</option>
                 <option value="l">Big</option>
               </c-select>
             </c-box>
 
-            <c-box w="217%">
+            <!-- <c-box w="217%">
               <c-input v-model="form.comment" placeholder="comment" mt="5.7%" ml="6%" borderColor="gray.800"/>
-            </c-box>
+            </c-box> -->
           </c-stack>
         </c-box>
 
-        <c-box bg="tomato" marginTop="10">
-          <p>select ingredient in this menu</p>
-          <ul class="checkboxes">
-            <div v-for="item in all_ingredient" :key="item.id">
-            <label>
-            <input
-              type="checkbox"
-              :value="item.id"
-              v-model="form.ingredients"
-            />
-            {{ item.ingredient_name_ENG }}</label>
-            </div>
-          </ul>
-          <p>{{ form.ingredients }}</p>
-        </c-box>
+        <c-flex justify="center">
+          <c-box 
+            w="50%"
+            border-color="gray.600"
+            border-width="3px" 
+            rounded="lg"
+            borderRadius="0.5rem"
+            marginTop="10">
 
-        <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
-          Add Ingredient
-        </c-button>
+            <c-text fontWeight="normal" fontSize="2xl" mr="37%" mt="4%" color="#C42231"> Select ingredient in this menu </c-text>
+              <ul class="checkboxes">
+                <c-simple-grid :columns="[1, 2]" spacing="8" mt="5%" mb="8%">
+                  
+                  <div v-for="item in all_ingredient" :key="item.id">
+                    <c-stack should-wrap-children is-inline ml="25%">
+                      <c-text fontSize="xl">
+                        <input
+                            type="checkbox"
+                            :value="item.id"
+                            v-model="form.ingredients"
+                        />
+                      {{ item.ingredient_name_ENG }}
+                      </c-text>
+                    </c-stack>
+                  </div>
+                
+              </c-simple-grid>
+              </ul>
+            <!-- <p>{{ form.ingredients }}</p> -->
+          </c-box>
+        </c-flex>
 
-        <c-button @click="createMenu" mr="4%" mb="3%" mt="8%" width="36%" variant-color="yellow" variant="solid" size="lg">
+        <c-button @click="createMenu" mr="4%" mb="3%" mt="5%" width="36%" variant-color="yellow" variant="solid" size="lg" :_hover="{bg: '#A0AEC0'}">
           Create Menu
         </c-button>
 
@@ -168,7 +182,7 @@ import { CInput,CSelect,CNumberInput,
   CNumberIncrementStepper,
   CNumberDecrementStepper,
   CButton, CStack, CImage,
-  CBox, CGrid, CInputGroup,
+  CBox, CGrid, CInputGroup, CSimpleGrid,
   CFormControl, CFormLabel, CHeading,CFlex,CCheckbox, CCheckboxGroup,
   CText  } from "@chakra-ui/vue";
 
@@ -184,7 +198,7 @@ export default {
         CButton,
         CBox, CText,
         CFormControl,
-        CGrid, CImage,
+        CGrid, CImage, CSimpleGrid,
         CHeading, CInputGroup, CFormLabel,
         CStack, CFlex,CCheckbox, CCheckboxGroup,
     },
@@ -235,6 +249,4 @@ export default {
 </script>
 
 <style>
-.form {
-}
 </style>

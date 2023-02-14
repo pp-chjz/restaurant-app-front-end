@@ -1,37 +1,46 @@
 <template>
   <div>
-    <h1>This is an All menu</h1>
+    <c-box 
+        px="4rem" 
+        py="10px"
+        width="full" 
+        maxWidth="500vh"
+        bg="#252836"
+      >
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
     <div v-for="index in menu" :key="index.id">
 
         <!-- ช่องสำหรับ add menu -->
-        <div v-if="index.menu_id === 'true' ">
-            <c-box  mt="4rem" m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="black" :_hover="{bg: 'indigo.100' , borderColor:'indigo'}" fontSize="xl">
+        <div v-if="index.menu_id === 'true' "> 
+            <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="white" fontSize="xl">
+                <c-flex jusify="center" >
+                    <c-button  ml="40%" color="#FD821B" size="lg" variant-color="white" mt="45%">
+                        <a @click='edit(index.id)' v-bind="index"> + </a>
+                        <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
+
+                    </c-button>
+                </c-flex>
+
                 <c-box
-                    mt="1"
                     font-weight="semibold"
                     as="h4"
                     line-height="tight"
                     is-truncated
                 >
-                    Add new Dish
+                    <c-text color="#EA7C69">
+                        Add new dish
+                    </c-text>
+                
                 </c-box>
-
-
-                <c-flex jusify="center">
-                    <c-button  mt="1rem" bgColor="black" color="white" size="lg" :_hover="{bg: 'pink.400'}" >
-                        <a @click='edit(index.id)' v-bind="index">Add dish</a>
-                        <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
-
-                    </c-button>
-                </c-flex>
+            
+                <!-- <c-text mt="88%">Add new dish</c-text> -->
             </c-box>
         </div>
         <!-- ช่องสำหรับ add menu -->
 
 
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
-        <c-box v-if="index.menu_id === 'false'"  mt="4rem" m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="black" :_hover="{bg: 'indigo.100' , borderColor:'indigo'}" fontSize="xl">
+        <c-box v-if="index.menu_id === 'false'"  mt="4rem" m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="black" bg="white" fontSize="xl">
             
             <!-- <c-image :src="index.image[0].path" alt="cat" /> -->
             <c-image
@@ -62,7 +71,7 @@
                 
                 </c-box>
                 <c-box
-                    mt="1"
+                    mt="8%"
                     font-weight="semibold"
                     as="h4"
                     line-height="tight"
@@ -82,20 +91,21 @@
                 </c-box>
 
                 <c-box
+                
                         mt="1.5rem"
-                        color="gray.500"
+                        color="#FD821B"
                         font-weight="semibold"
                         letter-spacing="wide"
                         font-size="0.75em"
                         text-transform="uppercase"
                         ml="2"
                         >
-                        {{ index.price }} bath
+                        {{ index.price }} baht
                         <!-- {{ index.price }} bath &bull; {{ index.QTY }} bowls -->
                     </c-box>
 
-                <c-flex jusify="center">
-                    <c-button  mt="1rem" bgColor="black" color="white" size="lg" :_hover="{bg: 'pink.400'}" >
+                <c-flex jusify="center" >
+                    <c-button ml="30%"  mt="1rem" size="lg" variant-color="pink" >
                         <a @click='edit(index.id)' v-bind="index">Edit dish</a>
                         <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
 
@@ -110,12 +120,9 @@
             </c-box>
         </c-box>
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
-
-
-
-
     </div>
     </c-simple-grid>
+    </c-box>
   </div>
 </template>
 
@@ -129,7 +136,7 @@ import { CInput,CSelect,CNumberInput,
   CNumberIncrementStepper,
   CNumberDecrementStepper,
   CButton , CImage,CSimpleGrid , CBox,
-  CBadge,CFlex    } from "@chakra-ui/vue";
+  CBadge, CFlex, CText    } from "@chakra-ui/vue";
 
 export default {
     name: 'All Menu',
@@ -144,7 +151,7 @@ export default {
         CNumberInputStepper,
         CNumberIncrementStepper,
         CNumberDecrementStepper,
-        CButton ,
+        CButton, CText,
         CImage, CSimpleGrid ,CBox ,CBadge ,CFlex 
     },
     data(){
@@ -175,3 +182,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.box {
+        border: dashed 3px #EA7C69;
+    }
+</style>

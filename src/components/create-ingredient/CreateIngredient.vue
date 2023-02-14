@@ -38,19 +38,21 @@
 
       <c-flex justify="center" mt="2%">
       <c-form-control w="100%">
-        <c-flex justify="center" mt="2%">
-            <c-input v-model="form.ingredient_name_ENG" placeholder="name_ENG" justify="center"  w="40%" borderColor="gray.800"/>
+        <c-text fontWeight="normal" mr="33%">English Name </c-text>
+        <c-flex justify="center" mt="0.5%">
+            <c-input v-model="form.ingredient_name_ENG" placeholder="ชื่อวัตถุดิบภาษาอังกฤษ" justify="center" w="40%" borderColor="gray.800"/>
         </c-flex>
 
-        <c-flex justify="center" mt="1%">
-            <c-input v-model="form.ingredient_name_TH" placeholder="name_TH" w="40%" borderColor="gray.800"/>
+        <c-text fontWeight="normal" mt="2%" mr="34%">Thai Name </c-text>
+        <c-flex justify="center" mt="0.5%">
+            <c-input v-model="form.ingredient_name_TH" placeholder="ชื่อวัตถุดิบภาษาไทย" w="40%" borderColor="gray.800"/>
         </c-flex>
 
-        <c-text fontSize="xl" mt="2rem" mr="31%">{{ "Select Qauntity" }}</c-text>
+        <c-text fontSize="md" mt="2rem" mr="35%">{{ "Qauntity" }}</c-text>
 
         <c-flex justify="center">
             <c-stack should-wrap-children is-inline w="40%">
-                <c-box w="160%">
+                <c-box w="160%" mt="2%">
                     <c-number-input v-model="form.QTY" >
                     <c-number-input-field type="number" borderColor="gray.800" />
                     <c-number-input-stepper>
@@ -61,7 +63,7 @@
                 </c-box>
             
 
-                <c-box w="193%" ml="95%">
+                <c-box w="193%" ml="95%" mt="4%">
                     <c-select v-model="ingredient_status"  placeholder="Select status" borderColor="gray.800">
                         <option value="1">In stock</option>
                         <option value="2">Out of stock</option>
@@ -71,7 +73,7 @@
         </c-flex>
 
         <c-flex justify="center">
-            <c-button  @click="createIngredient" mt="15%" width="40%" variant-color="green" variant="solid" size="lg">
+            <c-button  @click="createIngredient" mt="10%" width="40%" variant-color="green" variant="solid" size="lg" :_hover="{bg: '#A0AEC0'}">
                 Create Ingredient
             </c-button>
         </c-flex>
