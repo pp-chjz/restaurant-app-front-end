@@ -45,6 +45,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getApiHeader() {
+      console.log("api header" , this.state.jwt)
         return {
           headers: {
             Authorization: `Bearer ${this.jwt}`,

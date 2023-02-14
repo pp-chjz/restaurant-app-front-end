@@ -178,6 +178,7 @@ export default {
             menu_status:"",
             ingredient:[],
             all_ingredient:[],
+            user:[],
             form:{
                 menu_id:"false",
                 catagories:0,

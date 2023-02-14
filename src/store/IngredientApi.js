@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import backendInstance from '../services/backendInstance'
 import AuthService from '../services/AuthService'
+import AuthUser from '@/store/AuthUser'
 
 Vue.use(Vuex)
 
