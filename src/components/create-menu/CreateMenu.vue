@@ -43,8 +43,7 @@
               <c-select v-model="catagories" placeholder="Select Catagories" size="md" mt="12%" borderColor="gray.800">
                 <option value="1">Food</option>
                 <option value="2">Drink</option>
-                <option value="3">Main dish</option>
-                <option value="4">Dessert</option>
+                <option value="3">Dessert</option>
               </c-select>
             </c-box>
 
@@ -106,9 +105,9 @@
               </c-select>
             </c-box>
 
-            <c-box w="217%">
+            <!-- <c-box w="217%">
               <c-input v-model="form.comment" placeholder="comment" mt="6%" ml="6%" borderColor="gray.800"/>
-            </c-box>
+            </c-box> -->
           </c-stack>
         </c-box>
 
@@ -127,9 +126,9 @@
           </ul>
           <p>{{ form.ingredients }}</p>
         </c-box>
-        <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
+        <!-- <c-button @click="addIngredient" mr="4%" mb="3%" mt="8%" width="36%" variant-color="indigo" variant="solid" size="lg">
           Add Ingredient
-        </c-button>
+        </c-button> -->
 
         <c-button @click="createMenu" mr="4%" mb="3%" mt="8%" width="36%" variant-color="yellow" variant="solid" size="lg">
           Create Menu
@@ -189,7 +188,7 @@ export default {
                 price:1,
                 QTY:1,
                 size:"",
-                comment:"",
+                comment:"ไมผัก",
                 ingredients:[]
             }
         }
