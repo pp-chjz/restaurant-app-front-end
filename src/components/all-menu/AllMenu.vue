@@ -95,8 +95,7 @@
 
                 <c-flex jusify="center">
                     <c-button  mt="1rem" bgColor="black" color="white" size="lg" :_hover="{bg: 'pink.400'}" >
-                        <a @click='edit(index.id)' v-bind="index">Edit dish</a>
-                        <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
+                        <a @click='edit(index.id)' :href="'/editMenuView/'+index.id" v-bind="index">Edit dish</a>
 
                     </c-button>
                 </c-flex>

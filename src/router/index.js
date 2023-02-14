@@ -57,7 +57,7 @@ const routes = [
     component: AllMenuView
   },
   {
-    path: '/editMenuView',
+    path: '/editMenuView/:id',
     name: 'editMenuView',
     component: EditMenuView
   },

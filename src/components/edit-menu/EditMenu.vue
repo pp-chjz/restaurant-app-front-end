@@ -35,8 +35,8 @@
           <c-button w="49%" size="md" ml="70%">
             Add picture
           </c-button>
-          <c-input v-model="form.name_ENG" placeholder="name_ENG" w="180%" borderColor="gray.800" mt="10%"/>
-          <c-input v-model="form.name_TH" placeholder="name_TH" mt="8%" w="180%" borderColor="gray.800"/>
+          <c-input v-model="menu.name_ENG" placeholder="name_ENG" w="180%" borderColor="gray.800" mt="10%"/>
+          <c-input v-model="menu.name_TH" placeholder="name_TH" mt="8%" w="180%" borderColor="gray.800"/>
 
           <c-stack should-wrap-children is-inline>
             <c-box w="120%">
@@ -75,7 +75,7 @@
           <!-- Select Price -->
           <c-stack should-wrap-children is-inline>
             <c-box w="182%">
-              <c-number-input v-model="form.price" :precision="2" >
+              <c-number-input v-model="menu.price" :precision="2" >
               <c-number-input-field type="number" borderColor="gray.800"/>
               <c-number-input-stepper>
               <c-numberIncrement-stepper />
@@ -86,7 +86,7 @@
 
             <!-- Select QTY -->
             <c-box w="182%" ml="83%">
-                <c-number-input v-model="form.QTY" >
+                <c-number-input v-model="menu.QTY" >
                 <c-number-input-field type="number" borderColor="gray.800"/>
                 <c-number-input-stepper>
                 <c-numberIncrement-stepper />
@@ -99,7 +99,7 @@
           <!-- Select Size -->
           <c-stack should-wrap-children is-inline>
             <c-box w="120%">
-              <c-select v-model="form.size" placeholder="Select size" mt="18%" borderColor="gray.800">
+              <c-select v-model="menu.size" placeholder="Select size" mt="18%" borderColor="gray.800">
                 <option value="s">Small</option>
                 <option value="l">Big</option>
               </c-select>
@@ -130,8 +130,8 @@
           Add Ingredient
         </c-button> -->
 
-        <c-button @click="createMenu" mr="4%" mb="3%" mt="8%" width="36%" variant-color="yellow" variant="solid" size="lg">
-          Create Menu
+        <c-button @click="editMenu" mr="4%" mb="3%" mt="8%" width="36%" variant-color="yellow" variant="solid" size="lg">
+          Edit Menu
         </c-button>
 
       </c-form-control>
@@ -178,37 +178,70 @@ export default {
             menu_status:"",
             ingredient:[],
             all_ingredient:[],
+            menu_id: this.$route.params.id,
+            menu:[],
             form:{
-                menu_id:"false",
                 catagories:0,
-                sort_menu:1,
                 name_ENG:"",
                 name_TH:"",
                 menu_status:0,
                 price:1,
                 QTY:1,
                 size:"",
-                comment:"ไมผัก",
-                ingredients:[]
+                ingredients:[],
+                menu_id: this.$route.params.id,
             }
         }
     },
     async created(){
-        console.log("CreateMenuPage Created");
+        console.log("EditMenuPage Created");
         await IngredientApi.dispatch("fetchIngredient");
         this.all_ingredient = IngredientApi.getters.getIngredients;
         console.log("all ingredient = " ,this.all_ingredient);
-        // console.log("jwt = " , AuthUser.getters.jwt )
+
+        await MenuApi.dispatch("fetchMenuById" , this.menu_id);
+        this.menu = MenuApi.getters.getMenuById;
+        console.log("menu = " , this.menu);
+        if(this.menu.catagories === "food")
+        {
+            this.catagories = "1"
+        }
+        if(this.menu.catagories === "drink")
+        {
+            this.catagories = "2"
+        }
+        if(this.menu.catagories === "dessert")
+        {
+            this.catagories = "3"
+        }
+
+        if(this.menu.menu_status === "in stock")
+        {
+            this.menu_status = "1"
+        }
+        if(this.menu.menu_status === "out of stock")
+        {
+            this.menu_status = "2"
+        }
+
+        for(let i=0 ; i<this.menu.ingredient.length ; i++)
+            this.form.ingredients.push(this.menu.ingredient[i].id)
+            // console.log("this.ingredient = " , this.menu.ingredient[i])
     },
     methods:{
-        async createMenu(){
+        async editMenu(){
             this.form.catagories = parseInt(this.catagories);
             this.form.menu_status = parseInt(this.menu_status);
-            this.form.price = parseFloat(this.form.price);
+            this.form.price = parseFloat(this.menu.price);
+            this.form.name_ENG = this.menu.name_ENG;
+            this.form.name_TH = this.menu.name_TH;
+            this.form.size = this.menu.size
+            this.form.QTY = this.menu.QTY;
 
             console.log(this.form)
-            let res = MenuApi.dispatch("createMenu" ,this.form);
-            console.log(res);
+
+            let res = MenuApi.dispatch("editMenu" ,this.form );
+            // console.log(res);
         },
 
         async addIngredient(){
