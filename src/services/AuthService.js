@@ -21,7 +21,14 @@ export default {
     } else {
       console.log("else if" , this.jwt)
       if (JSON.parse(localStorage.getItem(auth_key)) !== null) {
-        this.jwt = JSON.parse(localStorage.getItem(auth_key)).jwt;
+        // console.log(JSON.parse(localStorage.getItem(auth_key)))
+        this.jwt = JSON.parse(localStorage.getItem(auth_key)).access_token;
+        // console.log(this.jwt);
+        return {
+          headers: {
+            Authorization: `Bearer ${this.jwt}`,
+          },
+        };
       }
     }
   },
@@ -77,6 +84,8 @@ export default {
 
       let res = await backendInstance.post(`/api/auth/login`, body);
       localStorage.setItem(auth_key, JSON.stringify(res.data));
+      localStorage.setItem('jwt', JSON.stringify(res.data.access_token));
+      
       this.jwt = res.data.access_token;
       backendInstance.defaults.headers.common.Authorization = `Bearer ${this.jwt}`;
 

@@ -80,6 +80,16 @@
           </c-menu>
         </router-link>
       </div>
+
+      <div>
+        <router-link to="/editMenuView">
+          <c-menu :close-on-select="false">
+            <c-menu-button mx="1" variant-color="red">
+              EditMenu
+            </c-menu-button>
+          </c-menu>
+        </router-link>
+      </div>
       
     </c-flex>
     </c-simple-grid>

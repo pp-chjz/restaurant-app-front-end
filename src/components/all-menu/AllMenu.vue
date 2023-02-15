@@ -74,10 +74,10 @@
                     <c-badge rounded="full" px="5" variant-color="yellow" font-size="0.75em" v-if="index.catagories === 'food'">
                     FOOD
                     </c-badge>
-                    <c-badge rounded="full" px="5" variant-color="Blue" font-size="0.75em" v-if="index.catagories === 'drink'">
+                    <c-badge rounded="full" px="5" variant-color="blue" font-size="0.75em" v-if="index.catagories === 'drink'">
                     DRINK
                     </c-badge>
-                    <c-badge rounded="full" px="5" variant-color="Pink" font-size="0.75em" v-if="index.catagories === 'dessert'">
+                    <c-badge rounded="full" px="5" bg="#FED7E2" font-size="0.75em" v-if="index.catagories === 'dessert'">
                     DESSERT
                     </c-badge>
 
@@ -118,13 +118,12 @@
                         <!-- {{ index.price }} bath &bull; {{ index.QTY }} bowls -->
                     </c-box>
 
-                <c-flex jusify="center" >
+                <c-flex jusify="center">
                     <c-button ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
-                        <a @click='edit(index.id)' v-bind="index">Edit dish</a>
-                        <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
-
+                        <a @click='edit(index.id)' :href="'/editMenuView/'+index.id" v-bind="index">Edit dish</a>
                     </c-button>
                 </c-flex>
+
             </c-box>
         </c-box>
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
