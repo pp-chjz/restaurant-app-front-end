@@ -5,17 +5,31 @@
         py="10px"
         width="full" 
         maxWidth="500vh"
-        bg="#252836"
+        bg="#1F1D2B"
       >
+      <c-heading
+        size="xl"
+        mr="67%"
+        mt="2rem"
+        color="white"
+        opacity="0.8"
+        fontWeight="normal"
+        lineHeight="1.5"
+        white-space="pre-line"
+        >
+        {{ "Products Management" }}
+        </c-heading>
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
     <div v-for="index in menu" :key="index.id">
 
         <!-- ช่องสำหรับ add menu -->
         <div v-if="index.menu_id === 'true' "> 
-            <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="white" fontSize="xl">
+            <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="#1F1D2B" fontSize="xl">
                 <c-flex jusify="center" >
                     <c-button  ml="40%" color="#FD821B" size="lg" variant-color="white" mt="45%">
-                        <a @click='edit(index.id)' v-bind="index"> + </a>
+                        <a @click='edit(index.id)' v-bind="index"> 
+                            <c-icon name="add"/>
+                        </a>
                         <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
 
                     </c-button>
@@ -32,23 +46,22 @@
                     </c-text>
                 
                 </c-box>
-            
-                <!-- <c-text mt="88%">Add new dish</c-text> -->
             </c-box>
         </div>
         <!-- ช่องสำหรับ add menu -->
 
 
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
-        <c-box v-if="index.menu_id === 'false'"  mt="4rem" m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="black" bg="white" fontSize="xl">
+        <c-box v-if="index.menu_id === 'false'"  m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#1F1D2B" fontSize="xl">
             
             <!-- <c-image :src="index.image[0].path" alt="cat" /> -->
-            <c-image
+            <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="30%" mt="3%"/>
+            <!-- <c-image
                 size="150px"
                 objectFit="cover"
-                src="https://bit.ly/chakra-naruto-uzumaki"
+                src="gibberish.png"
                 alt="PICTURE"
-            />
+            /> -->
             <c-box p="6">
                 <c-box d="flex" align-items="baseline">
                     <c-badge rounded="full" px="5" variant-color="green" font-size="0.75em" v-if="index.menu_status === 'in stock'">
@@ -71,6 +84,7 @@
                 
                 </c-box>
                 <c-box
+                    color="white"
                     mt="8%"
                     font-weight="semibold"
                     as="h4"
@@ -81,6 +95,7 @@
                 </c-box>
 
                 <c-box
+                color="white"
                     mt="1"
                     font-weight="semibold"
                     as="h4"
@@ -91,9 +106,8 @@
                 </c-box>
 
                 <c-box
-                
                         mt="1.5rem"
-                        color="#FD821B"
+                        color="#ABBBC2"
                         font-weight="semibold"
                         letter-spacing="wide"
                         font-size="0.75em"
@@ -105,18 +119,12 @@
                     </c-box>
 
                 <c-flex jusify="center" >
-                    <c-button ml="30%"  mt="1rem" size="lg" variant-color="pink" >
+                    <c-button ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
                         <a @click='edit(index.id)' v-bind="index">Edit dish</a>
                         <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
 
                     </c-button>
                 </c-flex>
-                <!-- <c-flex jusify="center" v-if="index.apply">
-                    <c-text color="red">คุณสมัครงานนี้ไปแล้ว</c-text>
-                </c-flex>
-                <c-button  mt="1rem" border="1px" bgColor="white" color="red" size="lg" :_hover="{bg: 'red' ,color:'white' , borderColor:'red'}">
-                        <a @click='report(index.id)' v-bind="index">REPORT</a>
-                </c-button> -->
             </c-box>
         </c-box>
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
@@ -135,8 +143,9 @@ import { CInput,CSelect,CNumberInput,
   CNumberInputStepper,
   CNumberIncrementStepper,
   CNumberDecrementStepper,
-  CButton , CImage,CSimpleGrid , CBox,
-  CBadge, CFlex, CText    } from "@chakra-ui/vue";
+  CButton, CImage, CSimpleGrid, CBox,
+  CBadge, CFlex, CText, CHeading, CIcon,
+  } from "@chakra-ui/vue";
 
 export default {
     name: 'All Menu',
@@ -151,8 +160,9 @@ export default {
         CNumberInputStepper,
         CNumberIncrementStepper,
         CNumberDecrementStepper,
-        CButton, CText,
-        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex 
+        CButton, CText, CHeading, CIcon,
+        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex ,
+
     },
     data(){
         return{
