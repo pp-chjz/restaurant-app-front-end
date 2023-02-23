@@ -8,6 +8,7 @@ import Chakra, {
   CBox,
   CReset,
 } from "@chakra-ui/vue";
+import VueSwal from "vue-swal";
 
 Vue.use(Chakra)
 
@@ -28,3 +29,5 @@ new Vue({
     ]);
   },
 }).$mount('#app')
+
+Vue.use(VueSwal);

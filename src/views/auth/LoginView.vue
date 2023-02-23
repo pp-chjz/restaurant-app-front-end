@@ -141,11 +141,20 @@ export default {
   methods:{
     async summit(){
       console.log(this.form)
-      let res = await AuthUser.dispatch('login',this.form)
+      if (this.form.email !== "" && this.form.password !== "") {
+      let res = await AuthUser.dispatch("login", this.form);
 
       if (res.success) {
-            this.$router.push("/home");
+          this.$swal("เข้าสู่ระบบสำเร็จ" , `ยินดีต้อนรับคุณ ${res.user.name}`, "success");
+          this.$router.push("/home");
         }
+      else {
+        this.$swal("เข้าสู่ระบบไม่สำเร็จ", res.message, "error");
+      }
+    }
+    else {
+      this.$swal("เข้าสู่ระบบไม่สำเร็จ", `โปรดกรอกข้อมูลให้ครบถ้วน`, "error");
+    }
     }
   }
 }

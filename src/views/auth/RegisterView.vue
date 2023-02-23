@@ -64,7 +64,7 @@
         white-space="pre-line"> Username </c-form-label>
           <c-input
                 pr="4.5rem"
-                placeholder="Email"
+                placeholder="Username"
                 v-model="form.username"
           />
       </c-form-control>
@@ -194,11 +194,25 @@ export default {
       console.log(this.menus)
     },
     async summit(){
-      console.log(this.form)
-      let res = await AuthUser.dispatch('register',this.form)
-      if (res.success) {
-            this.$router.push("/home");
-        }
+          console.log(this.form)
+          if (this.form.email !== "" && this.form.username !== "" && this.form.password !== "" && this.form.password_confirmation !== "") {
+            if(this.form.password === this.form.password_confirmation){
+                let res = await AuthUser.dispatch('register', this.form)
+                if(res.success){
+                    this.$swal("ลงทะเบียนสำเร็จ", `ยินดีต้อนรับคุณ ${res.user.name}`, "success")
+                    this.$router.push("/home")
+                } 
+                else {
+                    this.$swal("ลงทะเบียนไม่สำเร็จ", res.message, "error")
+                }
+            }
+            else{
+                this.$swal('รหัสผ่านไม่ตรงกัน', '', "error")
+            }
+          } else {
+            this.$swal("ลงทะเบียนไม่สำเร็จ", `โปรดกรอกข้อมูลให้ครบถ้วน`, "error");
+          }
+            
     }
   }
 }

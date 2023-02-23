@@ -81,15 +81,15 @@
         </router-link>
       </div>
 
-      <div>
-        <router-link to="/editMenuView">
+      <!-- <div v-if="isAuthen()">
+        <router-link to="/home">
           <c-menu :close-on-select="false">
             <c-menu-button mx="1" variant-color="red">
-              EditMenu
+              Log out
             </c-menu-button>
           </c-menu>
         </router-link>
-      </div>
+      </div> -->
       
     </c-flex>
     </c-simple-grid>
@@ -108,7 +108,7 @@ export default {
     CMenuButton,
     CSimpleGrid,
     CFlex
-  }
+  },
 };
 </script>
 
