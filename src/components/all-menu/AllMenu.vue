@@ -27,7 +27,7 @@
             <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="#1F1D2B" fontSize="xl">
                 <c-flex jusify="center" >
                     <c-button  ml="40%" color="#FD821B" size="lg" variant-color="white" mt="45%">
-                        <a @click='edit(index.id)' v-bind="index"> 
+                        <a @click='edit(index.id)' :href="'/createMenu'" v-bind="index"> 
                             <c-icon name="add"/>
                         </a>
                         <!-- <a @click='edit(index.id)' :href="'#/job/'+index.id" v-bind="index">Edit dish</a> -->
