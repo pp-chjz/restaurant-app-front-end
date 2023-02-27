@@ -8,6 +8,8 @@ import CreateMenuView from '../views/CreateMenuView.vue'
 import CreateIngredientView from '../views/CreateIngredientView.vue'
 import AllMenuView from '../views/AllMenuView.vue'
 import EditMenuView from '../views/EditMenuView.vue'
+import TableView from '../views/TableView.vue'
+
 
 
 Vue.use(VueRouter)
@@ -60,6 +62,11 @@ const routes = [
     path: '/editMenuView/:id',
     name: 'editMenuView',
     component: EditMenuView
+  },
+  {
+    path: '/tableView',
+    name: 'tableView',
+    component: TableView
   },
 ]
 
