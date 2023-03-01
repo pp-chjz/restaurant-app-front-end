@@ -1,13 +1,40 @@
 <template>
     <div>
-        <vs-button @click="popupActivo2=true" color="green" type="filled">เพิ่มโต๊ะ</vs-button>
+    <c-box 
+        px="4rem" 
+        py="10px"
+        width="full" 
+        maxWidth="500vh"
+        bg="#1F1D2B"
+      >
+        <c-heading
+        size="xl"
+        mr="85%"
+        mt="2rem"
+        color="white"
+        opacity="0.8"
+        fontWeight="bold"
+        lineHeight="1.5"
+        white-space="pre-line"
+        >
+        {{ "Table" }}
+        </c-heading>
+
+       <!-- ช่องสำหรับ add table -->
+       <c-box ml="82%">
+            <vs-button  @click="popupActivo2=true" size="lg" color="green" type="filled">
+                <c-text fontSize="lg">
+                    Add table
+                </c-text>
+                
+            </vs-button>
             <!-- ส่วนของ pop up ที่เด้งขึ้นมาเมื่อกดปุ่ม -->
-            <vs-popup  title="ต้องการสร้างโต๊ะ" :active.sync="popupActivo2">
-                <p class="name">ต้องการสร้างโต๊ะที่ {{ table_count }} ใช่หรือไม่</p>
+            <vs-popup  title="ต้องการสร้างโต๊ะ" :active.sync="popupActivo2"  >
+                <p class="name"> ต้องการสร้างโต๊ะที่ {{ table_count }} ใช่หรือไม่</p>
 
                 <c-flex align="center">
                     <c-flex  align="flex-end">
-                        <c-button @click="cancel()" mt="2rem" width="full" variant-color="red" variant="solid" size="lg">
+                        <c-button @click="cancel()" mt="2rem" mx="2" width="full" variant-color="red" variant="solid" size="lg">
                             ยกเลิก
                         </c-button> 
                     </c-flex>
@@ -20,11 +47,43 @@
                 </c-flex>
 
             </vs-popup>
-        <!-- ส่วนของ pop up ที่เด้งขึ้นมาเมื่อกดปุ่ม -->
+        </c-box>
+        <!-- ช่องสำหรับ add table -->
 
-        {{  tables.data }}
-
+    <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
+    <div v-for="index in tables.data" :key="index.id">
+        <!-- ช่องสำหรับแสดงโต๊ะทั้งหมด -->
+        <c-box m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#9FDDB9" fontSize="xl">
+            <c-box
+                    color="black"
+                    mt="8%"
+                    font-weight="semibold"
+                    as="h4"
+                    line-height="tight"
+                    is-truncated
+                >
+                    Table {{ index.id }}
+                </c-box>
+            <c-box p="4">
+                <c-box
+                color="white"
+                    mt="1"
+                    font-weight="semibold"
+                    as="h4"
+                    line-height="tight"
+                    is-truncated
+                >
+                    {{ index.table_count}}
+                </c-box>
+            </c-box>
+        </c-box>
+        <!-- ช่องสำหรับแสดงโต๊ะทั้งหมด -->
+        
     </div>
+    </c-simple-grid>
+    </c-box>
+  </div>
+  
 </template>
 
 <script>
@@ -39,6 +98,7 @@ import { CInput,CSelect,CNumberInput,
   CNumberDecrementStepper,
   CButton, CImage, CSimpleGrid, CBox,
   CBadge, CFlex, CText, CHeading, CIcon,
+  CStack
   } from "@chakra-ui/vue";
 
 export default {
@@ -53,7 +113,7 @@ export default {
         CNumberInputField,
         CNumberInputStepper,
         CNumberIncrementStepper,
-        CNumberDecrementStepper,
+        CNumberDecrementStepper, CStack,
         CButton, CText, CHeading, CIcon,
         CImage, CSimpleGrid ,CBox ,CBadge ,CFlex ,
 
@@ -96,5 +156,9 @@ export default {
 </script>
 
 <style>
+
+.name {
+    font-size: medium;
+}
 
 </style>
