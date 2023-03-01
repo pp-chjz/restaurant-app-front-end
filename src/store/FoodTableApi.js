@@ -10,9 +10,12 @@ export default new Vuex.Store({
   state: {
       tables:[],
       newTableCreated:[],
+      tablesWithOrder:[],
   },
   getters: {
       getTables: (state) => state.tables,
+      getTablessWithOrder: (state) => state.tablesWithOrder,
+
   },
   mutations: {
       async fetch(state, { res }){
@@ -20,7 +23,10 @@ export default new Vuex.Store({
       },
       async setNewTable(state, { res }){
         state.newTableCreated = (await res)
-    },
+      },
+      async setTablesWithOrder(state, { res }){
+        state.tablesWithOrder = (await res)
+      },
   },
   actions: {
     async fetchTable({ commit }) {
@@ -31,6 +37,14 @@ export default new Vuex.Store({
         console.log("fetchTable" , res.data)
         commit("fetch", {res} );
     },
+    async fetchTableWithOrder({ commit }) {
+      console.log("fetchTableWithOrder")
+      let header = AuthService.getApiHeader();
+      console.log("header = " , header)
+      let res = await backendInstance.get(`/api/get-table-have-order` , header);
+      console.log("fetchTableWithOrder" , res.data)
+      commit("setTablesWithOrder", {res} );
+  },
     async createTable({ commit } , payload){
         try {
             let payload = {

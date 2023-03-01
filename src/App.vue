@@ -91,6 +91,17 @@
         </router-link>
       </div>
 
+
+      <div>
+        <router-link to="/orderView">
+          <c-menu :close-on-select="false">
+            <c-menu-button mx="1" variant-color="red">
+              All Order
+            </c-menu-button>
+          </c-menu>
+        </router-link>
+      </div>
+
       <!-- <div v-if="isAuthen()">
         <router-link to="/home">
           <c-menu :close-on-select="false">

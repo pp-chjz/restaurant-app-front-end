@@ -9,6 +9,8 @@ import CreateIngredientView from '../views/CreateIngredientView.vue'
 import AllMenuView from '../views/AllMenuView.vue'
 import EditMenuView from '../views/EditMenuView.vue'
 import TableView from '../views/TableView.vue'
+import OrderView from '../views/OrderView.vue'
+
 
 
 
@@ -67,6 +69,11 @@ const routes = [
     path: '/tableView',
     name: 'tableView',
     component: TableView
+  },
+  {
+    path: '/orderView',
+    name: 'orderView',
+    component: OrderView
   },
 ]
 

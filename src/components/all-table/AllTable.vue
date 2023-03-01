@@ -68,11 +68,11 @@ export default {
     },
     async created(){
         console.log("All table Created");
-        await this.fetchMenu()
+        await this.fetchTable()
     },
     methods:{
-        async fetchMenu(){
-            // console.log("fetchMenu")
+        async fetchTable(){
+            // console.log("fetchTable")
             await TableApi.dispatch("fetchTable")
             this.tables = TableApi.getters.getTables
             this.table_count = this.tables.data.length + 1
@@ -86,7 +86,7 @@ export default {
         },
         async create(){
             await TableApi.dispatch("createTable")
-            await this.fetchMenu()
+            await this.fetchTable()
             
             this.popupActivo2 = false   
         },
