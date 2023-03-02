@@ -1,22 +1,48 @@
 <template>
     <div>
-        all order view
+        <c-box 
+        px="4rem" 
+        py="10px"
+        width="full" 
+        maxWidth="500vh"
+        bg="#1F1D2B"
+      >
+        <c-heading
+        size="xl"
+        mr="85%"
+        mt="2rem"
+        color="white"
+        opacity="0.8"
+        fontWeight="bold"
+        lineHeight="1.5"
+        white-space="pre-line"
+        >
+        {{ orders.data.length }} {{ "Orders" }}
+        </c-heading>
 
-    
+        <c-box ml="87%" w="80px">
+            <c-select v-model="orderStatus" placeholder="All">
+            <option value="grilled">Preparing</option>
+            <option value="pub-style" bg="yellow">Cooking</option>
+            <option value="jucy-lucy">Served</option>
+            </c-select>
+        </c-box>
+
+    <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10" >
     
         <div v-for="index in orders.data" :key="index.id">
 
-            <c-box maxW="sm" border-width="1px" rounded="lg" overflow="hidden">
+            <c-box maxW="sm" border-width="1px" rounded="lg" overflow="hidden" bg="#393C49">
                 <c-box v-if="index.order_status === 'new' " bg="green.200" w="100%" p="4" color="black">
-                    Table {{ index.table_number }} <br>
+                    <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
                 </c-box>
-                <c-box v-if="index.order_status === 'cooking' " bg="yellow.300" w="100%" p="4" color="white">
-                    Table {{ index.table_number }} <br>
+                <c-box v-if="index.order_status === 'cooking' " bg="yellow.300" w="100%" p="4" color="black">
+                    <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
                 </c-box>
-                <c-box v-if="index.order_status === 'complete' " bg="red.300" w="100%" p="4" color="white">
-                    Table {{ index.table_number }} <br>
+                <c-box v-if="index.order_status === 'complete' " bg="red.300" w="100%" p="4" color="black">
+                    <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
                 </c-box>
                     <c-box p="6">
@@ -40,9 +66,9 @@
                             line-height="tight"
                             is-truncated
                         >
-                            {{ menu.pivot.QTY }} x {{  menu.name_TH  }} <br>
+                        <c-text color="white"> {{ menu.pivot.QTY }} x {{  menu.name_TH  }} </c-text> 
                             <div v-if="menu.pivot.comment !== null ">
-                                - {{ menu.pivot.comment }}
+                                <c-text color="#DEC95C"> - {{ menu.pivot.comment }} </c-text>
                             </div>
                         </c-box>
                     </div>
@@ -50,6 +76,8 @@
             </c-box>
 
         </div>
+        </c-simple-grid>
+    </c-box>
 
     </div>
 </template>
@@ -84,7 +112,7 @@ export default {
         CNumberIncrementStepper,
         CNumberDecrementStepper,
         CButton, CText, CHeading, CIcon,
-        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex ,
+        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex, 
 
     },
     data(){
@@ -136,5 +164,4 @@ export default {
 </script>
 
 <style>
-
 </style>
