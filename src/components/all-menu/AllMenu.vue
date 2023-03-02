@@ -55,7 +55,9 @@
         <c-box v-if="index.menu_id === 'false'"  m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#1F1D2B" fontSize="xl">
             
             <!-- <c-image :src="index.image[0].path" alt="cat" /> -->
-            <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="30%" mt="3%"/>
+            <!-- <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="30%" mt="3%"/> -->
+            <img class="image" v-show:"image" :src="image"/>
+            
             <!-- <c-image
                 size="150px"
                 objectFit="cover"
@@ -167,6 +169,7 @@ export default {
         return{
             menus:[],
             menu:[{menu_id:'not show'}],
+            image:"@/assets/saen.png"
         }
     },
     async created(){

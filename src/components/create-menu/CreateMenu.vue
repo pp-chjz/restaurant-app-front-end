@@ -44,7 +44,24 @@
         
         <c-box w="20%" mt="4%" ml="30%">
           <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="70%" />
-          <c-button w="49%" size="md" ml="70%">
+
+
+          <!-- สำหรับรูป -->
+          <!-- <div v-if="!imagePreview">
+            <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="70%" />
+          </div>
+          <div v-if="imagePreview">
+            <img :src="imagePreview" >
+
+          </div> -->
+
+          <!-- <img :src="imageURL"> -->
+          <!-- <input type="file" @change="handleImageSelected"> -->
+          <!-- สำหรับรูป -->
+
+          
+
+          <c-button @click="imageUpload" w="49%" size="md" ml="70%">
             Add picture
           </c-button>
           <c-text mr="66%" mt="15%" fontWeight="normal">English Name </c-text>
@@ -173,6 +190,8 @@ import MenuApi from "@/store/MenuApi.js"
 import AuthUser from '@/store/AuthUser.js'
 import AuthService from '@/services/AuthService'
 import IngredientApi from '@/store/IngredientApi'
+import ImageApi from '@/store/ImageApi'
+
 
 import { CInput,CSelect,CNumberInput,
   CNumberInputField,
@@ -219,7 +238,14 @@ export default {
                 size:"",
                 comment:"ไมผัก",
                 ingredients:[]
-            }
+            },
+            payload:{
+              menu_id:1,
+              image:"",
+            },
+            imageFile:"",
+            imageURL:"",
+            imagePreview:null,
         }
     },
     async created(){
@@ -230,6 +256,42 @@ export default {
         // console.log("jwt = " , AuthUser.getters.jwt )
     },
     methods:{
+        imageUpload(){
+          let data = new FormData;
+          data.append('image' , this.imageFile)
+          this.payload.image = data
+          // axios.post('../image' , data)
+          ImageApi.dispatch("createImage",this.payload)
+
+          // .then(()=>{
+          //   window.location = '../image'
+          // }).catch(()=>{
+
+          // })
+        },
+        handleImageSelected(event){
+          // let imageFile = ref("");
+          console.log(event)
+
+          if(event.target.files.length == 0){
+            return;
+          }
+
+          this.imageFile = event.target.files[0]
+
+          console.log("imageFile", this.imageFile)
+
+          let reader = new FileReader()
+          reader.readAsDataURL(this.imageFile)
+          reader.onload = e =>{
+            this.imagePreview = e.target.result
+          }
+
+          // this.imageURL = "@/assets/" + this.imageFile
+          // this.imagePreview = require(this.imageURL)
+          // console.log("imageURL.value" , this.imageURL)
+
+        },
         async createMenu(){
             this.form.catagories = parseInt(this.catagories);
             this.form.menu_status = parseInt(this.menu_status);
