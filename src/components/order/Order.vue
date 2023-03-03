@@ -41,6 +41,10 @@
                     <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
                 </c-box>
+                <c-box v-if="index.order_status === 'wait_for_check_bill' " bg="blue.300" w="100%" p="4" color="black">
+                    <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
+                    {{ index.order_time }}
+                </c-box>
                 <c-box v-if="index.order_status === 'complete' " bg="red.300" w="100%" p="4" color="black">
                     <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
@@ -52,6 +56,9 @@
                             </c-badge>
                             <c-badge v-if="index.order_status === 'cooking' " rounded="full" px="2" variant-color="yellow">
                             cooking
+                            </c-badge>
+                            <c-badge v-if="index.order_status === 'wait_for_check_bill' " rounded="full" px="2" variant-color="blue">
+                            Waiting for check bill
                             </c-badge>
                             <c-badge v-if="index.order_status === 'complete' " rounded="full" px="2" variant-color="red">
                             complete
