@@ -200,7 +200,7 @@ export default {
                 let res = await AuthUser.dispatch('register', this.form)
                 if(res.success){
                     this.$swal("ลงทะเบียนสำเร็จ", `ยินดีต้อนรับคุณ ${res.user.name}`, "success")
-                    this.$router.push("/home")
+                    this.$router.push("/tableView")
                 } 
                 else {
                     this.$swal("ลงทะเบียนไม่สำเร็จ", res.message, "error")

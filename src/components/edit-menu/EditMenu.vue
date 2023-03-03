@@ -78,12 +78,12 @@
             fontWeight="normal"
             white-space="pre-line">Price</c-form-label>
 
-            <c-form-label 
+            <!-- <c-form-label 
                   color="black"
                   mt="40%"
                   ml="323%"
                   fontWeight="normal"
-                  white-space="pre-line">Qauntity</c-form-label>
+                  white-space="pre-line">Qauntity</c-form-label> -->
           </c-stack>
             
           <!-- Select Price -->
@@ -99,7 +99,7 @@
             </c-box>
 
              <!-- Select QTY -->
-            <c-box w="182%" ml="83%">
+            <!-- <c-box w="182%" ml="83%">
                 <c-number-input v-model="menu.QTY" >
                 <c-number-input-field type="number" borderColor="gray.800"/>
                 <c-number-input-stepper>
@@ -107,7 +107,7 @@
                 <c-number-decrement-stepper />
                 </c-number-input-stepper>
                 </c-number-input>
-              </c-box>
+              </c-box> -->
           </c-stack>
         
           <!-- Select Size -->
@@ -218,7 +218,7 @@ export default {
                 name_TH:"",
                 menu_status:0,
                 price:1,
-                QTY:1,
+                // QTY:1,
                 size:"",
                 ingredients:[],
                 menu_id: this.$route.params.id,
@@ -268,12 +268,14 @@ export default {
             this.form.name_ENG = this.menu.name_ENG;
             this.form.name_TH = this.menu.name_TH;
             this.form.size = this.menu.size
-            this.form.QTY = this.menu.QTY;
+            // this.form.QTY = this.menu.QTY;
 
             console.log(this.form)
 
             let res = MenuApi.dispatch("editMenu" ,this.form );
             // console.log(res);
+            this.$router.push("/allMenuView");
+
         },
 
         async addIngredient(){

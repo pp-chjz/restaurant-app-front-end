@@ -19,7 +19,7 @@
         justify="center"
         :direction="['column', 'row', 'row', 'row']"
       >
-      <router-link to="/">
+      <!-- <router-link to="/">
         <c-menu :close-on-select="false">
           <c-menu-button mx="1" variant-color="red">
             Home
@@ -33,7 +33,7 @@
             About
           </c-menu-button>
         </c-menu>
-      </router-link>
+      </router-link> -->
 
       <router-link to="/register">
         <c-menu :close-on-select="false">

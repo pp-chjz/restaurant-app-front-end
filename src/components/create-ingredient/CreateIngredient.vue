@@ -131,6 +131,8 @@ export default {
             console.log(this.form)
             let res = IngredientApi.dispatch("createIngredient" ,this.form);
             console.log(res);
+            this.$router.push("/allMenuView");
+
         }
     }
 }

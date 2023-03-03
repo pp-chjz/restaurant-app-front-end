@@ -39,6 +39,8 @@ export default new Vuex.Store({
         try {
             let header = AuthService.getApiHeader();
             console.log("header = ", header)
+            console.log("payload = ", payload)
+
             let res = await backendInstance.post(`/api/menu`, payload , header);
             console.log("res = ", res)
             if (res.status === 201) {

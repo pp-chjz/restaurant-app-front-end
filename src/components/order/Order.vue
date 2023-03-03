@@ -57,6 +57,7 @@
                             complete
                             </c-badge>
                     </c-box>
+                    <br>
                     <div v-for="menu in index.menus" :key="menu.id">
 
                         <c-box
@@ -66,10 +67,26 @@
                             line-height="tight"
                             is-truncated
                         >
-                        <c-text color="white"> {{ menu.pivot.QTY }} x {{  menu.name_TH  }} </c-text> 
+                        <c-flex align="center">
+
+                            <c-text color="white"> {{ menu.pivot.QTY }} x {{  menu.name_TH  }} </c-text> 
+                            <c-badge v-if="menu.pivot.food_status === 'prepare' " rounded="full" px="2" variant-color="green" ml="2">
+                                Prepare
+                            </c-badge>
+                            <c-badge v-if="menu.pivot.food_status === 'cooking' " rounded="full" px="2" variant-color="yellow" ml="2">
+                                Cooking
+                            </c-badge>
+                            <c-badge v-if="menu.pivot.food_status === 'served' " rounded="full" px="2" variant-color="red" ml="2">
+                                served
+                            </c-badge>
+                        </c-flex>
+                        <c-flex align="center">
+
                             <div v-if="menu.pivot.comment !== null ">
                                 <c-text color="#DEC95C"> - {{ menu.pivot.comment }} </c-text>
                             </div>
+                        </c-flex>
+                        
                         </c-box>
                     </div>
                 </c-box>

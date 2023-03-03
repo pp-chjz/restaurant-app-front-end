@@ -146,7 +146,7 @@ export default {
 
       if (res.success) {
           this.$swal("เข้าสู่ระบบสำเร็จ" , `ยินดีต้อนรับคุณ ${res.user.name}`, "success");
-          this.$router.push("/home");
+          this.$router.push("/tableView");
         }
       else {
         this.$swal("เข้าสู่ระบบไม่สำเร็จ", res.message, "error");
