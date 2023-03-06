@@ -17,7 +17,7 @@
         lineHeight="1.5"
         white-space="pre-line"
         >
-        {{ orders.data.length }} {{ "Orders" }}
+        {{ orders_use.data.length }} {{ "Orders" }}
         </c-heading>
 
         <c-box ml="87%" w="80px">
@@ -30,7 +30,7 @@
 
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10" >
     
-        <div v-for="index in orders.data" :key="index.id">
+        <div v-for="index in orders_use.data" :key="index.id">
 
             <c-box maxW="sm" border-width="1px" rounded="lg" overflow="hidden" bg="#393C49">
                 <c-box v-if="index.order_status === 'new' " bg="green.200" w="100%" p="4" color="black">
@@ -42,6 +42,10 @@
                     {{ index.order_time }}
                 </c-box>
                 <c-box v-if="index.order_status === 'wait_for_check_bill' " bg="blue.300" w="100%" p="4" color="black">
+                    <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
+                    {{ index.order_time }}
+                </c-box>
+                <c-box v-if="index.order_status === 'all_served_unpaid' " bg="indigo.300" w="100%" p="4" color="black">
                     <c-text fontWeight="bold" fontSize="xl"> Table {{ index.table_number }} <br> </c-text>
                     {{ index.order_time }}
                 </c-box>
@@ -59,6 +63,9 @@
                             </c-badge>
                             <c-badge v-if="index.order_status === 'wait_for_check_bill' " rounded="full" px="2" variant-color="blue">
                             Waiting for check bill
+                            </c-badge>
+                            <c-badge v-if="index.order_status === 'all_served_unpaid' " rounded="full" px="2" variant-color="indigo">
+                            All served / Unpaid
                             </c-badge>
                             <c-badge v-if="index.order_status === 'complete' " rounded="full" px="2" variant-color="red">
                             complete
@@ -96,9 +103,12 @@
                         
                         </c-box>
                     </div>
+                    <order-popup
+                    v-bind:menus="index.menus"
+                    v-bind:order_id="index.id"
+                    @saveInfo="editOrder"></order-popup>
                 </c-box>
             </c-box>
-
         </div>
         </c-simple-grid>
     </c-box>
@@ -112,6 +122,8 @@ import AuthUser from '@/store/AuthUser.js'
 import MenuApi from "@/store/MenuApi.js"
 import TableApi from "@/store/FoodTableApi.js"
 import OrderApi from "@/store/OrderApi.js"
+import OrderPopup from "@/components/order-popup/OrderPopup.vue"
+
 
 import { CInput,CSelect,CNumberInput,
   CNumberInputField,
@@ -136,17 +148,25 @@ export default {
         CNumberIncrementStepper,
         CNumberDecrementStepper,
         CButton, CText, CHeading, CIcon,
-        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex, 
+        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex,OrderPopup
 
     },
     data(){
         return{
             tables:[],
             orders:[],
+            orders_use:[],
+
             tablesWithOrder:[],
             menu:[{menu_id:'not show'}],
             table_count:0,
             popupActivo2:false,
+            prepare: 0,
+            served: 0,
+            payload:{
+                order_id: 0,
+                order_status: 0,
+            }
         }
     },
     async created(){
@@ -161,8 +181,74 @@ export default {
         this.orders = OrderApi.getters.getOrders
         console.log("this.orders =" , this.orders.data)
 
+        for(let i = 0 ; i < this.orders.data.length ; i++)
+        {
+            console.log("-------------order---------------",this.orders.data[i].order_status)
+            if(this.orders.data[i].order_status == 'new' || this.orders.data[i].order_status == 'cooking' || this.orders.data[i].order_status == 'all_served_unpaid')
+            {
+                // console.log("if",this.orders.data[i].order_status)
+                this.payload.order_id = this.orders.data[i].id
+                
+                for(let j = 0 ; j < this.orders.data[i].menus.length ; j++)
+                {
+                    // console.log("food",this.orders.data[i].menus[j].pivot.food_status)
+                    if(this.orders.data[i].menus[j].pivot.food_status == 'cooking')
+                    {
+                        // console.log("food cooking",this.orders.data[i].menus[j].pivot.food_status)
+
+                        // this.orders.data[i].order_status = 'cooking'
+                        this.payload.order_status = 2
+                        await OrderApi.dispatch("updateOrderStatus",this.payload)
+
+                    }
+                    else if(this.orders.data[i].menus[j].pivot.food_status == 'prepare')
+                    {
+                        this.prepare+=1
+                    }
+                    else if(this.orders.data[i].menus[j].pivot.food_status == 'served')
+                    {
+                        this.served+=1
+                        
+                    }
+
+                }
+                if(this.prepare == this.orders.data[i].menus.length)
+                {
+                    // console.log("prepare = ",this.prepare)
+                    // console.log("length = ",this.orders.data[i].menus.length)
+                    // this.orders.data[i].order_status = 'new'
+                    this.payload.order_status = 1
+                    await OrderApi.dispatch("updateOrderStatus",this.payload)
+
+                    
+                }
+                else if(this.served == this.orders.data[i].menus.length)
+                {
+                    // console.log("served = ",this.served)
+                    // console.log("length = ",this.orders.data[i].menus.length)
+                    // this.orders.data[i].order_status = 'all_served_unpaid'
+                    this.payload.order_status = 4
+                    await OrderApi.dispatch("updateOrderStatus",this.payload)
+
+
+
+                }
+
+                this.prepare = 0
+                this.served = 0
+
+            }
+
+        }
+
+        await OrderApi.dispatch("fetchOrder")
+        this.orders_use = OrderApi.getters.getOrders
+
     },
     methods:{
+        editOrder(){
+            console.log("edit order")
+        },
         async fetchTable(){
             // console.log("fetchMenu")
             await TableApi.dispatch("fetchTable")
