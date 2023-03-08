@@ -51,7 +51,8 @@ import OrderApi from "@/store/OrderApi.js"
 export default {
     props:{
         menu: Object,
-        order_id: Number
+        order_id: Number,
+        orders: Object
     },
     components: {
           CInput,
@@ -93,8 +94,24 @@ export default {
             {
                 this.payload.food_status = parseInt(this.payload.food_status)
                 console.log("payload",this.payload)
-
                 await OrderApi.dispatch("updateFoodStatus",this.payload)
+                if(this.payload.food_status == 1)
+                {
+                    this.menu.pivot.food_status = 'prepare'
+
+                }
+                if(this.payload.food_status == 2)
+                {
+                    this.menu.pivot.food_status = 'cooking'
+
+                }
+                if(this.payload.food_status == 3)
+                {
+                    this.menu.pivot.food_status = 'served'
+
+                }
+
+
             }
 
             this.payload.menu_id = 0

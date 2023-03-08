@@ -1,10 +1,14 @@
 <template>
     <div>
-        <c-button @click="popupActivo2=true" mt="2rem" width="full" variant-color="green" variant="solid" size="lg">
+        <c-button v-if="orders.order_status === 'new' || orders.order_status === 'cooking'" @click="popupActivo2=true" mt="2rem" width="full" variant-color="green" variant="solid" size="lg">
             จัดการออเดอร์
         </c-button> 
-
-        
+        <c-button v-if="orders.order_status === 'complete' || orders.order_status === 'wait_for_check_bill' || orders.order_status === 'all_served_unpaid'" @click="popupActivo2=true" mt="2rem" width="full" variant-color="green" variant="solid" size="lg" isDisabled="true">
+            จัดการออเดอร์
+        </c-button> 
+        <!-- <c-button @click="popupActivo2=true" mt="2rem" width="full" variant-color="green" variant="solid" size="lg">
+            จัดการออเดอร์
+        </c-button>  -->
   
           <!-- ส่วนของ pop up ที่เด้งขึ้นมาเมื่อกดปุ่ม -->
           <vs-popup title="จัดการออเดอร์" :active.sync="popupActivo2">
@@ -17,10 +21,15 @@
                 v-bind:order_id="order_id"
                 @saveInfo="editOrder"></food-status-popup>
             </div>
-              <c-button  mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+              <!-- <c-button  mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
                 <a @click='edit()' :href="'/orderView'">  confirm
                         </a>
+              </c-button>  -->
+
+              <c-button @click='edit()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+                confirm
               </c-button> 
+              
 
           </vs-popup>
           <!-- ส่วนของ pop up ที่เด้งขึ้นมาเมื่อกดปุ่ม -->
@@ -29,6 +38,7 @@
   
   <script>
 import FoodStatusPopup from "@/components/food-status-popup/FoodStatusPopup.vue"
+import OrderApi from "@/store/OrderApi.js"
 
   import { CInput,CSelect,CNumberInput,
     CNumberInputField,
@@ -42,7 +52,9 @@ import FoodStatusPopup from "@/components/food-status-popup/FoodStatusPopup.vue"
   export default {
       props:{
           menus: Object,
-          order_id: Number
+          order_id: Number,
+        orders: Object
+
       },
       components: {
           CInput,
@@ -76,8 +88,14 @@ import FoodStatusPopup from "@/components/food-status-popup/FoodStatusPopup.vue"
                 menu_id:0,
                 food_status:0
               },
+              payload_order_status:{
+                order_id: 0,
+                order_status: 0,
+              },
               food_status:[],
-              disabled: true
+              disabled: true,
+            prepare: 0,
+            served: 0,
           }
       },
       async created(){
@@ -92,10 +110,66 @@ import FoodStatusPopup from "@/components/food-status-popup/FoodStatusPopup.vue"
               const dateTime = date +' '+ time;
               this.timestamp = dateTime;
           },
-          edit(){
+          async edit(){
             // this.$forceUpdate();
             // this.
             console.log("edit");
+            this.payload_order_status.order_id = this.orders.id
+            if(this.orders.order_status == 'new' || this.orders.order_status == 'cooking' || this.orders.order_status == 'all_served_unpaid')
+            {
+                
+                for(let j = 0 ; j < this.orders.menus.length ; j++)
+                {
+                    if(this.orders.menus[j].pivot.food_status == 'cooking')
+                    {
+                        // console.log("food_status = " ,this.orders.menus[j].pivot.food_status)
+                        this.payload_order_status.order_status = 2
+                        await OrderApi.dispatch("updateOrderStatus",this.payload_order_status)
+                        this.orders.order_status = 'cooking'
+
+                    }
+                    else if(this.orders.menus[j].pivot.food_status == 'prepare')
+                    {
+                        // console.log("food_status = " ,this.orders.menus[j].pivot.food_status)
+
+                        this.prepare+=1
+                    }
+                    else if(this.orders.menus[j].pivot.food_status == 'served')
+                    {
+                        // console.log("food_status = " ,this.orders.menus[j].pivot.food_status)
+
+                        this.served+=1
+                        
+                    }
+
+                }
+                if(this.prepare == this.orders.menus.length)
+                {
+                    this.payload_order_status.order_status = 1
+                    await OrderApi.dispatch("updateOrderStatus",this.payload_order_status)
+                    this.orders.order_status = 'new'
+
+
+                    
+                }
+                else if(this.served == this.orders.menus.length)
+                {
+                    this.payload_order_status.order_status = 4
+                    await OrderApi.dispatch("updateOrderStatus",this.payload_order_status)
+                    this.orders.order_status = 'all_served_unpaid'
+
+
+
+
+                }
+
+                this.prepare = 0
+                this.served = 0
+
+            }
+            this.popupActivo2=false
+
+            
 
           },
           cancel(){

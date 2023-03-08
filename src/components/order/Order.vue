@@ -106,6 +106,7 @@
                     <order-popup
                     v-bind:menus="index.menus"
                     v-bind:order_id="index.id"
+                    v-bind:orders="index"
                     @saveInfo="editOrder"></order-popup>
                 </c-box>
             </c-box>
@@ -177,69 +178,69 @@ export default {
         // console.log("this.tablesWithOrder" , this.tablesWithOrder.data)
 
         // await this.fetchTable()
-        await OrderApi.dispatch("fetchOrder")
-        this.orders = OrderApi.getters.getOrders
-        console.log("this.orders =" , this.orders.data)
+        // await OrderApi.dispatch("fetchOrder")
+        // this.orders = OrderApi.getters.getOrders
+        // console.log("this.orders =" , this.orders.data)
 
-        for(let i = 0 ; i < this.orders.data.length ; i++)
-        {
-            console.log("-------------order---------------",this.orders.data[i].order_status)
-            if(this.orders.data[i].order_status == 'new' || this.orders.data[i].order_status == 'cooking' || this.orders.data[i].order_status == 'all_served_unpaid')
-            {
-                // console.log("if",this.orders.data[i].order_status)
-                this.payload.order_id = this.orders.data[i].id
+        // for(let i = 0 ; i < this.orders.data.length ; i++)
+        // {
+        //     console.log("-------------order---------------",this.orders.data[i].order_status)
+        //     if(this.orders.data[i].order_status == 'new' || this.orders.data[i].order_status == 'cooking' || this.orders.data[i].order_status == 'all_served_unpaid')
+        //     {
+        //         // console.log("if",this.orders.data[i].order_status)
+        //         this.payload.order_id = this.orders.data[i].id
                 
-                for(let j = 0 ; j < this.orders.data[i].menus.length ; j++)
-                {
-                    // console.log("food",this.orders.data[i].menus[j].pivot.food_status)
-                    if(this.orders.data[i].menus[j].pivot.food_status == 'cooking')
-                    {
-                        // console.log("food cooking",this.orders.data[i].menus[j].pivot.food_status)
+        //         for(let j = 0 ; j < this.orders.data[i].menus.length ; j++)
+        //         {
+        //             // console.log("food",this.orders.data[i].menus[j].pivot.food_status)
+        //             if(this.orders.data[i].menus[j].pivot.food_status == 'cooking')
+        //             {
+        //                 // console.log("food cooking",this.orders.data[i].menus[j].pivot.food_status)
 
-                        // this.orders.data[i].order_status = 'cooking'
-                        this.payload.order_status = 2
-                        await OrderApi.dispatch("updateOrderStatus",this.payload)
+        //                 // this.orders.data[i].order_status = 'cooking'
+        //                 this.payload.order_status = 2
+        //                 await OrderApi.dispatch("updateOrderStatus",this.payload)
 
-                    }
-                    else if(this.orders.data[i].menus[j].pivot.food_status == 'prepare')
-                    {
-                        this.prepare+=1
-                    }
-                    else if(this.orders.data[i].menus[j].pivot.food_status == 'served')
-                    {
-                        this.served+=1
+        //             }
+        //             else if(this.orders.data[i].menus[j].pivot.food_status == 'prepare')
+        //             {
+        //                 this.prepare+=1
+        //             }
+        //             else if(this.orders.data[i].menus[j].pivot.food_status == 'served')
+        //             {
+        //                 this.served+=1
                         
-                    }
+        //             }
 
-                }
-                if(this.prepare == this.orders.data[i].menus.length)
-                {
-                    // console.log("prepare = ",this.prepare)
-                    // console.log("length = ",this.orders.data[i].menus.length)
-                    // this.orders.data[i].order_status = 'new'
-                    this.payload.order_status = 1
-                    await OrderApi.dispatch("updateOrderStatus",this.payload)
+        //         }
+        //         if(this.prepare == this.orders.data[i].menus.length)
+        //         {
+        //             // console.log("prepare = ",this.prepare)
+        //             // console.log("length = ",this.orders.data[i].menus.length)
+        //             // this.orders.data[i].order_status = 'new'
+        //             this.payload.order_status = 1
+        //             await OrderApi.dispatch("updateOrderStatus",this.payload)
 
                     
-                }
-                else if(this.served == this.orders.data[i].menus.length)
-                {
-                    // console.log("served = ",this.served)
-                    // console.log("length = ",this.orders.data[i].menus.length)
-                    // this.orders.data[i].order_status = 'all_served_unpaid'
-                    this.payload.order_status = 4
-                    await OrderApi.dispatch("updateOrderStatus",this.payload)
+        //         }
+        //         else if(this.served == this.orders.data[i].menus.length)
+        //         {
+        //             // console.log("served = ",this.served)
+        //             // console.log("length = ",this.orders.data[i].menus.length)
+        //             // this.orders.data[i].order_status = 'all_served_unpaid'
+        //             this.payload.order_status = 4
+        //             await OrderApi.dispatch("updateOrderStatus",this.payload)
 
 
 
-                }
+        //         }
 
-                this.prepare = 0
-                this.served = 0
+        //         this.prepare = 0
+        //         this.served = 0
 
-            }
+        //     }
 
-        }
+        // }
 
         await OrderApi.dispatch("fetchOrder")
         this.orders_use = OrderApi.getters.getOrders
