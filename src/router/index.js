@@ -10,6 +10,8 @@ import AllMenuView from '../views/AllMenuView.vue'
 import EditMenuView from '../views/EditMenuView.vue'
 import TableView from '../views/TableView.vue'
 import OrderView from '../views/OrderView.vue'
+import DashboardView from '../views/DashboardView.vue'
+
 
 
 
@@ -74,6 +76,11 @@ const routes = [
     path: '/orderView',
     name: 'orderView',
     component: OrderView
+  },
+  {
+    path: '/dashboardView',
+    name: 'dashboardView',
+    component: DashboardView
   },
 ]
 
