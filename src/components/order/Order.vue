@@ -20,12 +20,24 @@
         {{ orders_use.data.length }} {{ "Orders" }}
         </c-heading>
 
-        <c-box ml="87%" w="80px">
-            <c-select v-model="orderStatus" placeholder="All">
-            <option value="grilled">Preparing</option>
-            <option value="pub-style" bg="yellow">Cooking</option>
-            <option value="jucy-lucy">Served</option>
+        <c-box ml="87%" w="150px">
+            <c-select v-model="orderStatus" placeholder="Select status">
+            <option value="1">New</option>
+            <option value="2" bg="yellow">Cooking</option>
+            <option value="4" bg="yellow">All served / Unpaid</option>
+            <option value="3" bg="yellow">Waiting for checkbill</option>
+            <option value="5">Complete</option>
             </c-select>
+
+            <c-select v-model="table_number" placeholder="Select table" size="md" borderColor="gray.800">
+                <option v-for="index in table" :value="index" > {{ index }}</option>
+            </c-select>
+            <c-button @click='search()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+                search
+              </c-button> 
+              <c-button @click='clear()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+                clear
+              </c-button> 
         </c-box>
 
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10" >
@@ -90,6 +102,9 @@
                             <c-badge v-if="menu.pivot.food_status === 'cooking' " rounded="full" px="2" variant-color="yellow" ml="2">
                                 Cooking
                             </c-badge>
+                            <c-badge v-if="menu.pivot.food_status === 'cancel' " rounded="full" px="2" variant-color="pink" ml="2">
+                                Cancel
+                            </c-badge>
                             <c-badge v-if="menu.pivot.food_status === 'served' " rounded="full" px="2" variant-color="red" ml="2">
                                 served
                             </c-badge>
@@ -124,6 +139,7 @@ import MenuApi from "@/store/MenuApi.js"
 import TableApi from "@/store/FoodTableApi.js"
 import OrderApi from "@/store/OrderApi.js"
 import OrderPopup from "@/components/order-popup/OrderPopup.vue"
+
 
 
 import { CInput,CSelect,CNumberInput,
@@ -165,88 +181,89 @@ export default {
             prepare: 0,
             served: 0,
             payload:{
-                order_id: 0,
                 order_status: 0,
-            }
+                table_number: 0,
+            },
+            table_number: "",
+            orderStatus:"",
+            table:[],
+            num:0,
         }
     },
     async created(){
         console.log("All order Created");
-        // await this.fetchTable()
-        // await TableApi.dispatch("fetchTableWithOrder")
-        // this.tablesWithOrder = TableApi.getters.getTablessWithOrder
-        // console.log("this.tablesWithOrder" , this.tablesWithOrder.data)
-
-        // await this.fetchTable()
-        // await OrderApi.dispatch("fetchOrder")
-        // this.orders = OrderApi.getters.getOrders
-        // console.log("this.orders =" , this.orders.data)
-
-        // for(let i = 0 ; i < this.orders.data.length ; i++)
-        // {
-        //     console.log("-------------order---------------",this.orders.data[i].order_status)
-        //     if(this.orders.data[i].order_status == 'new' || this.orders.data[i].order_status == 'cooking' || this.orders.data[i].order_status == 'all_served_unpaid')
-        //     {
-        //         // console.log("if",this.orders.data[i].order_status)
-        //         this.payload.order_id = this.orders.data[i].id
-                
-        //         for(let j = 0 ; j < this.orders.data[i].menus.length ; j++)
-        //         {
-        //             // console.log("food",this.orders.data[i].menus[j].pivot.food_status)
-        //             if(this.orders.data[i].menus[j].pivot.food_status == 'cooking')
-        //             {
-        //                 // console.log("food cooking",this.orders.data[i].menus[j].pivot.food_status)
-
-        //                 // this.orders.data[i].order_status = 'cooking'
-        //                 this.payload.order_status = 2
-        //                 await OrderApi.dispatch("updateOrderStatus",this.payload)
-
-        //             }
-        //             else if(this.orders.data[i].menus[j].pivot.food_status == 'prepare')
-        //             {
-        //                 this.prepare+=1
-        //             }
-        //             else if(this.orders.data[i].menus[j].pivot.food_status == 'served')
-        //             {
-        //                 this.served+=1
-                        
-        //             }
-
-        //         }
-        //         if(this.prepare == this.orders.data[i].menus.length)
-        //         {
-        //             // console.log("prepare = ",this.prepare)
-        //             // console.log("length = ",this.orders.data[i].menus.length)
-        //             // this.orders.data[i].order_status = 'new'
-        //             this.payload.order_status = 1
-        //             await OrderApi.dispatch("updateOrderStatus",this.payload)
-
-                    
-        //         }
-        //         else if(this.served == this.orders.data[i].menus.length)
-        //         {
-        //             // console.log("served = ",this.served)
-        //             // console.log("length = ",this.orders.data[i].menus.length)
-        //             // this.orders.data[i].order_status = 'all_served_unpaid'
-        //             this.payload.order_status = 4
-        //             await OrderApi.dispatch("updateOrderStatus",this.payload)
-
-
-
-        //         }
-
-        //         this.prepare = 0
-        //         this.served = 0
-
-        //     }
-
-        // }
-
         await OrderApi.dispatch("fetchOrder")
         this.orders_use = OrderApi.getters.getOrders
 
+        await TableApi.dispatch('fetchTotalTable')
+        this.total_table = TableApi.getters.getTotalTable
+        this.total_table = this.total_table.data
+        console.log('this.total_table = ', this.total_table)
+        for(let i = 0 ; i<this.total_table ; i++)
+        {
+            this.num = i+1
+            this.table.push(this.num.toString())
+        }
+
     },
     methods:{
+        async clear(){
+            await OrderApi.dispatch("fetchOrder")
+        this.orders_use = OrderApi.getters.getOrders
+        },
+        async search(){
+            console.log("search")
+            if(this.table_number == "" && this.orderStatus == "")
+            {
+                this.$swal({
+                    icon: 'error',
+                    title: 'ไม่สามารถค้นหาได้',
+                    text: 'กรุณาเลือกรายการที่จะค้นหา',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                })
+
+            }
+            else if(this.table_number == "")
+            {
+                this.payload.order_status = parseInt(this.orderStatus);
+                await OrderApi.dispatch("fetchSearchOrder" , this.payload)
+                this.orders_use = OrderApi.getters.getSearchOrders
+                this.orders_use = this.orders_use.data
+
+                console.log("orders_use = " ,this.orders_use)
+
+                this.$forceUpdate()
+
+            }
+            else if(this.orderStatus == "")
+            {
+                this.payload.table_number = parseInt(this.table_number);
+                await OrderApi.dispatch("fetchSearchOrder", this.payload)
+                this.orders_use = OrderApi.getters.getSearchOrders
+                this.orders_use = this.orders_use.data
+
+                console.log("payload = " ,this.payload)
+
+                this.$forceUpdate()
+                
+            }
+
+            else
+            {
+                this.payload.order_status = parseInt(this.orderStatus);
+                this.payload.table_number = parseInt(this.table_number);
+                console.log("payload = " ,this.payload)
+                await OrderApi.dispatch("fetchSearchOrder", this.payload)
+                this.orders_use = OrderApi.getters.getSearchOrders
+                this.orders_use = this.orders_use.data
+
+                this.$forceUpdate()
+            }
+            
+
+            
+                
+        },
         editOrder(){
             console.log("edit order")
         },
