@@ -51,7 +51,7 @@ import OrderApi from "@/store/OrderApi.js"
     } from "@chakra-ui/vue";
   export default {
       props:{
-          menus: Object,
+          menus: Array,
           order_id: Number,
         orders: Object
 

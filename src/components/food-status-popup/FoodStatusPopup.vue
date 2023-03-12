@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="menu.pivot.food_status !== 'cancel' ">
         <c-box
             mt="1"
             font-weight="semibold"

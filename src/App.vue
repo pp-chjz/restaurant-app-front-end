@@ -103,6 +103,16 @@
       </div>
 
       <div>
+        <router-link to="/checkBillView">
+          <c-menu :close-on-select="false">
+            <c-menu-button mx="1" variant-color="red">
+              Checkbill
+            </c-menu-button>
+          </c-menu>
+        </router-link>
+      </div>
+
+      <div>
         <router-link to="/dashboardView">
           <c-menu :close-on-select="false">
             <c-menu-button mx="1" variant-color="red">

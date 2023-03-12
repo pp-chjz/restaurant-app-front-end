@@ -11,6 +11,8 @@ import EditMenuView from '../views/EditMenuView.vue'
 import TableView from '../views/TableView.vue'
 import OrderView from '../views/OrderView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import CheckBillView from '../views/CheckBillView.vue'
+
 
 
 
@@ -81,6 +83,11 @@ const routes = [
     path: '/dashboardView',
     name: 'dashboardView',
     component: DashboardView
+  },
+  {
+    path: '/checkBillView',
+    name: 'checkBillView',
+    component: CheckBillView
   },
 ]
 
