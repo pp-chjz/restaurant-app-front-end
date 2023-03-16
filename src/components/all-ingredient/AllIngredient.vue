@@ -22,10 +22,10 @@
 
         <c-flex align="center">
 
-            <c-input v-model="payload.menu_name" placeholder="search name" />
+            <c-input v-model="payloadSearch.ingredient_name" placeholder="search name" />
 
 
-            <c-select v-model="menu_status" placeholder="Select status">
+            <c-select v-model="ingredient_status" placeholder="Select status">
             <option value="1">In Stock</option>
             <option value="2" bg="yellow">Out of stock</option>
             </c-select>
@@ -93,9 +93,11 @@ export default {
                 ingredient_status:0,
                 id:0,
             },
-            menu_status:"",
-            menu_catagory:"",
-            status:"",
+            payloadSearch:{
+                ingredient_status:0,
+                ingredient_name:"",
+            },
+            ingredient_status:"",
             
 
         }
@@ -105,7 +107,54 @@ export default {
         await this.fetchIngredient()
     },
     methods:{
-        
+        async search(){
+            console.log("search")
+                if(this.payloadSearch.ingredient_name == "" && this.ingredient_status == "" )
+                {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'ไม่สามารถค้นหาได้',
+                        text: 'กรุณาเลือกรายการที่จะค้นหา',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+                else
+                {
+                    this.payloadSearch.ingredient_name = "%" + this.payloadSearch.ingredient_name + "%" 
+                    if(this.ingredient_status != "")
+                        this.payloadSearch.ingredient_status = parseInt(this.ingredient_status);
+                    console.log("payloadSearch df = " ,this.payloadSearch)
+                    await IngredientApi.dispatch("fetchSearchIngredient", this.payloadSearch)
+                    this.ingredients = IngredientApi.getters.getSearchIngredients
+                    this.ingredients = this.ingredients.data
+                    this.ingredient = [{ingredient_ID:'not show'}]
+                    console.log("this.menuuuuuuuuuuuuuu = " ,this.ingredient)
+
+                    for(let i = 0; i<this.ingredients.length ; i++){
+                        this.ingredient.push(this.ingredients[i])
+                    }
+                    this.ingredient[0].ingredient_ID = 'true';
+                    console.log("ingredient = ", this.ingredient)
+                    this.payloadSearch.ingredient_status = 0
+                    this.payloadSearch.ingredient_name = ""
+                    this.ingredient_status = "",
+
+                    this.$forceUpdate()
+                }
+                
+
+            
+                
+        },
+        async clear(){
+            this.ingredient = [{ingredient_ID:'not show'}],
+            this.payloadSearch.ingredient_status = 0
+            this.payloadSearch.ingredient_name = ""
+            this.ingredient_status = "",
+            await this.fetchIngredient()
+
+
+        },
         async fetchIngredient(){
             // console.log("fetchMenu")
             await IngredientApi.dispatch("fetchIngredient")

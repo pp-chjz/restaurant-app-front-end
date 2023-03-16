@@ -11,10 +11,14 @@ export default new Vuex.Store({
       ingredients:[],
       newIngredientCreated:[],
       ingredientStatus:[],
+      searchedIngredients:[],
+
   },
   getters: {
       getIngredients: (state) => state.ingredients,
       getIngredientsStatus: (state) => state.ingredientStatus,
+      getSearchIngredients: (state) => state.searchedIngredients,
+
 
   },
   mutations: {
@@ -27,8 +31,18 @@ export default new Vuex.Store({
     async setIngredientsStatus(state, { res }){
       state.ingredientStatus = (await res)
    },
+   async setIngredientMenu(state, { res }){
+    state.searchedIngredients = (await res)
+  },
   },
   actions: {
+    async fetchSearchIngredient({ commit } , payload) {
+      console.log("fetchSearchIngredient payload = ",payload)
+      let header = AuthService.getApiHeader();
+      let res = await backendInstance.post(`/api/ingredients/get-ingredient-by-search` , payload ,header);
+      console.log("fetchSearchIngredient" , res.data)
+      commit("setIngredientMenu", {res} );
+  },
     async fetchIngredient({ commit }) {
         console.log("fetchIngredient")
         let header = AuthService.getApiHeader();

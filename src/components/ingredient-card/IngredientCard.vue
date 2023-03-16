@@ -100,7 +100,7 @@ import { CInput,CSelect,CNumberInput,
   } from "@chakra-ui/vue";
 export default {
     props:{
-        ingredient: Array,
+        ingredient: Object,
     },
     components: {
         CInput,
