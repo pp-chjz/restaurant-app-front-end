@@ -10,9 +10,12 @@ export default new Vuex.Store({
   state: {
       ingredients:[],
       newIngredientCreated:[],
+      ingredientStatus:[],
   },
   getters: {
       getIngredients: (state) => state.ingredients,
+      getIngredientsStatus: (state) => state.ingredientStatus,
+
   },
   mutations: {
       async fetch(state, { res }){
@@ -21,6 +24,9 @@ export default new Vuex.Store({
       async setNewIngredient(state, { res }){
         state.newIngredientCreated = (await res)
     },
+    async setIngredientsStatus(state, { res }){
+      state.ingredientStatus = (await res)
+   },
   },
   actions: {
     async fetchIngredient({ commit }) {
@@ -31,6 +37,15 @@ export default new Vuex.Store({
         console.log("fetchIngredient" , res.data)
         commit("fetch", {res} );
     },
+    async updateIngredientStatus({ commit } , payload) {
+      console.log("updateIngredientStatus" , payload)
+      let header = AuthService.getApiHeader();
+      console.log("header = " , header)
+      let res = await backendInstance.post(`/api/ingredients/${payload.id}/update-ingredient-status` , payload , header);
+      console.log("updateIngredientStatus" , res.data)
+      commit("setIngredientsStatus", res.data );
+
+  },
     async createIngredient({ commit } , payload){
         try {
             let header = AuthService.getApiHeader();
