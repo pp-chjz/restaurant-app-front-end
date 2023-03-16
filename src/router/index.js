@@ -12,6 +12,7 @@ import TableView from '../views/TableView.vue'
 import OrderView from '../views/OrderView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import CheckBillView from '../views/CheckBillView.vue'
+import AllIngredientView from '../views/AllIngredientView.vue'
 
 
 
@@ -88,6 +89,11 @@ const routes = [
     path: '/checkBillView',
     name: 'checkBillView',
     component: CheckBillView
+  },
+  {
+    path: '/allIngredientView',
+    name: 'allIngredientView',
+    component: AllIngredientView
   },
 ]
 

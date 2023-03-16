@@ -19,6 +19,33 @@
         >
         {{ "Products Management" }}
         </c-heading>
+
+        <c-flex ml="5%" mt="4%" align="center">
+
+            <c-input v-model="payload.menu_name" placeholder="search name" w="55%"/>
+
+            <c-box w="45%" mx="3%">
+                <c-select v-model="menu_status" placeholder="Select status" >
+                <option value="1">In Stock</option>
+                <option value="2" bg="yellow">Out of stock</option>
+                </c-select>
+            </c-box>
+
+            <c-box w="45%">
+                <c-select v-model="menu_catagory" placeholder="Select catagory" w="45%">
+                <option value="1">Food</option>
+                <option value="2" bg="yellow">Drink</option>
+                <option value="3" bg="yellow">Dessert</option>
+                </c-select>
+            </c-box>
+            <c-button @click='search()' width="full" color="#2D3748" variant="solid" w="15%">
+                search
+              </c-button> 
+              <c-button @click='clear()' width="full" variant-color="red" variant="solid" w="15%">
+                clear
+              </c-button> 
+        </c-flex>
+
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
     <div v-for="index in menu" :key="index.id">
 
@@ -169,7 +196,19 @@ export default {
         return{
             menus:[],
             menu:[{menu_id:'not show'}],
-            image:"@/assets/saen.png"
+            image:"@/assets/saen.png",
+            searchStatus:"",
+            searchCatagory:"",
+            searchName:"",
+            payload:{
+                menu_status:0,
+                menu_catagory:0,
+                menu_name:"",
+            },
+            menu_status:"",
+            menu_catagory:"",
+            
+
         }
     },
     async created(){
@@ -177,6 +216,59 @@ export default {
         await this.fetchMenu()
     },
     methods:{
+        async search(){
+            console.log("search")
+                if(this.payload.menu_name == "" && this.menu_status == "" && this.menu_catagory == "" )
+                {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'ไม่สามารถค้นหาได้',
+                        text: 'กรุณาเลือกรายการที่จะค้นหา',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+                else
+                {
+                    this.payload.menu_name = "%" + this.payload.menu_name + "%" 
+                    if(this.menu_status != "")
+                        this.payload.menu_status = parseInt(this.menu_status);
+                    if(this.menu_catagory != "")
+                        this.payload.menu_catagory = parseInt(this.menu_catagory);
+                    console.log("payload df = " ,this.payload)
+                    await MenuApi.dispatch("fetchSearchMenu", this.payload)
+                    this.menus = MenuApi.getters.getSearchMenus
+                    this.menus = this.menus.data
+                    this.menu =[{menu_id:'not show'}]
+                    console.log("this.menuuuuuuuuuuuuuu = " ,this.menu)
+
+                    for(let i = 0; i<this.menus.data.length ; i++){
+                        this.menu.push(this.menus.data[i])
+                    }
+                    this.menu[0].menu_id = 'true';
+                    console.log("this.menus = " ,this.menus.data)
+                    this.payload.menu_name = ""
+                    this.payload.menu_status = 0
+                    this.payload.menu_catagory = 0
+                    this.menu_status = "",
+                    this.menu_catagory = "",
+
+                    this.$forceUpdate()
+                }
+                
+
+            
+                
+        },
+        async clear(){
+            this.menu =[{menu_id:'not show'}]
+            this.payload.menu_name = ""
+                    this.payload.menu_status = 0
+                    this.payload.menu_catagory = 0
+                    this.menu_status = "",
+                    this.menu_catagory = "",
+            await this.fetchMenu()
+
+        },
         async fetchMenu(){
             // console.log("fetchMenu")
             await MenuApi.dispatch("fetchMenu")

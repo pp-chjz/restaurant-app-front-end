@@ -11,10 +11,14 @@ export default new Vuex.Store({
       menus:[],
       newMenuCreated:[],
       menuById:[],
+      searchedMenus:[],
+
   },
   getters: {
       getMenus: (state) => state.menus,
       getMenuById: (state) => state.menuById,
+      getSearchMenus: (state) => state.searchedMenus,
+
   },
   mutations: {
     async fetch(state, { res }){
@@ -26,8 +30,18 @@ export default new Vuex.Store({
     async fetchMenuById(state , { res }){
       state.menuById = (await res).data.data
     },
+    async setSearchMenu(state, { res }){
+      state.searchedMenus = (await res)
+    },
   },
   actions: {
+    async fetchSearchMenu({ commit } , payload) {
+      console.log("fetchSearchMenu payload = ",payload)
+      let header = AuthService.getApiHeader();
+      let res = await backendInstance.post(`/api/menus/get-menu-by-search` , payload ,header);
+      console.log("fetchSearchMenu" , res.data)
+      commit("setSearchMenu", {res} );
+  },
     async fetchMenu({ commit }) {
         console.log("fetchMenu")
         let header = AuthService.getApiHeader();
