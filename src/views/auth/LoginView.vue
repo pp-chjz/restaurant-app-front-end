@@ -146,6 +146,8 @@ export default {
 
       if (res.success) {
           this.$swal("เข้าสู่ระบบสำเร็จ" , `ยินดีต้อนรับคุณ ${res.user.name}`, "success");
+          localStorage.setItem('logedIn', "yes");
+
           this.$router.push("/tableView");
         }
       else {
