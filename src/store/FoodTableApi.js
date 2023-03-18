@@ -11,10 +11,14 @@ export default new Vuex.Store({
       tables:[],
       newTableCreated:[],
       tablesWithOrder:[],
+      totalTable:[],
+
   },
   getters: {
       getTables: (state) => state.tables,
       getTablessWithOrder: (state) => state.tablesWithOrder,
+      getTotalTable: (state) => state.totalTable,
+
 
   },
   mutations: {
@@ -27,8 +31,18 @@ export default new Vuex.Store({
       async setTablesWithOrder(state, { res }){
         state.tablesWithOrder = (await res)
       },
+      async setNewTotalTable(state, { res }){
+        state.totalTable = (await res)
+      },
   },
   actions: {
+    async fetchTotalTable({ commit }) {
+      console.log("fetchTotalTable")
+      let header = AuthService.getApiHeader();
+      console.log("header = " , header)
+      let res = await backendInstance.get(`/api/get-total-table` , header);
+      commit("setNewTotalTable", {res} );
+  },
     async fetchTable({ commit }) {
         console.log("fetchTable")
         let header = AuthService.getApiHeader();

@@ -11,6 +11,8 @@ export default new Vuex.Store({
       newOrderCreated:[],
       orders:[],
       ordersUnpaid:[],
+      searchedOrders:[],
+
 
 
   },
@@ -18,6 +20,8 @@ export default new Vuex.Store({
       getNewOrder: (state) => state.newOrderCreated,
       getOrders: (state) => state.orders,
       getUnpaidOrders: (state) => state.ordersUnpaid,
+      getSearchOrders: (state) => state.searchedOrders,
+
 
 
   },
@@ -31,8 +35,35 @@ export default new Vuex.Store({
     async setUnpaidOrder(state, { res }){
       state.ordersUnpaid = (await res)
     },
+    async setSearchOrder(state, { res }){
+      state.searchedOrders = (await res)
+    },
   },
   actions: {
+    async fetchSearchOrder({ commit } , payload) {
+      console.log("fetchSearchOrder payload = ",payload)
+      let header = AuthService.getApiHeader();
+      console.log("header = " , header)
+      let res = await backendInstance.post(`/api/orders/get-order-by-search` , payload ,header);
+      console.log("fetchSearchOrder" , res.data)
+      commit("setSearchOrder", {res} );
+  },
+    async updateFoodStatus({ commit } , payload) {
+      console.log("updateFoodStatus")
+      let order_id = payload.order_id
+      let header = AuthService.getApiHeader();
+      console.log("header = " , header)
+      let res = await backendInstance.put(`/api/orders/${order_id}/update-menu-status` , payload , header);
+      console.log("updateFoodStatus", res)
+  },
+  async updateOrderStatus({ commit } , payload) {
+    console.log("updateOrderStatus")
+    let order_id = payload.order_id
+    let header = AuthService.getApiHeader();
+    console.log("header = " , header)
+    let res = await backendInstance.put(`/api/orders/${order_id}/update-order-status` , payload , header);
+    console.log("updateOrderStatus", res)
+},
       async fetchOrder({ commit }) {
         console.log("fetchOrder")
         let header = AuthService.getApiHeader();
