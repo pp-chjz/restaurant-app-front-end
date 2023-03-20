@@ -148,7 +148,7 @@ export default {
           this.$swal("เข้าสู่ระบบสำเร็จ" , `ยินดีต้อนรับคุณ ${res.user.name}`, "success");
           localStorage.setItem('logedIn', "yes");
 
-          this.$router.push("/tableView");
+          this.$router.push("/openRestaurantView");
         }
       else {
         this.$swal("เข้าสู่ระบบไม่สำเร็จ", res.message, "error");

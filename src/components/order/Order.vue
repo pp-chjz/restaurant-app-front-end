@@ -192,6 +192,9 @@ export default {
     },
     async created(){
         console.log("All order Created");
+        console.log("openRes isOpen" , !AuthUser.getters.isOpen)
+        console.log("isAuthen" , AuthUser.getters.isAuthen)
+
         await OrderApi.dispatch("fetchOrder")
         this.orders_use = OrderApi.getters.getOrders
 
@@ -271,7 +274,7 @@ export default {
             // console.log("fetchMenu")
             await TableApi.dispatch("fetchTable")
             this.tables = TableApi.getters.getTables
-            this.table_count = this.tables.data.length + 1
+            this.table_count = this.tables.data.lenght + 1
             console.log(this.tables)
         },
         edit(){

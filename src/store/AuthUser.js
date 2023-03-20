@@ -9,8 +9,11 @@ Vue.use(Vuex);
 const initialState = {
   user: auth ? auth.user : "",
   jwt: auth ? auth.jwt : "",
-  isAuthen: auth ? true : false,
+  isAuthen: false ,
   isActivate: auth ? true : false,
+  isOpen: false,
+  isClose: true,
+
 };
 
 export default new Vuex.Store({
@@ -20,6 +23,10 @@ export default new Vuex.Store({
     user: (state) => state.user,
     jwt: (state) => state.jwt,
     isAuthen: (state) => state.isAuthen,
+    isOpen: (state) => state.isOpen,
+    isClose: (state) => state.isClose,
+
+
   },
 
   mutations: {
@@ -35,6 +42,12 @@ export default new Vuex.Store({
       state.jwt = "";
       state.isAuthen = false;
       state.isAdmin = false;
+    },
+    OpenSuccess(state) {
+      state.isOpen = true;
+    },
+    CloseSuccess(state) {
+      state.isClose = true;
     },
     registerSuccess(state, user) {
       state.user = user;
@@ -71,6 +84,15 @@ export default new Vuex.Store({
           commit("loginSuccess", body); // type true=admin false=user
         }
         return res;
+      },
+      async logout({ commit }) {
+        commit("logoutSuccess");
+      },
+      async open({ commit }) {
+        commit("OpenSuccess");
+      },
+      async close({ commit }) {
+        commit("CloseSuccess");
       },
   },
 });

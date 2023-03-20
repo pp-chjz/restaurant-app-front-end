@@ -14,6 +14,8 @@ import DashboardView from '../views/DashboardView.vue'
 import CheckBillView from '../views/CheckBillView.vue'
 import AllIngredientView from '../views/AllIngredientView.vue'
 import OpenRestaurantView from '../views/OpenRestaurantView.vue'
+import CloseRestaurantView from '../views/CloseRestaurantView.vue'
+
 
 
 
@@ -101,6 +103,11 @@ const routes = [
     path: '/openRestaurantView',
     name: 'openRestaurantView',
     component: OpenRestaurantView
+  },
+  {
+    path: '/closeRestaurantView',
+    name: 'closeRestaurantView',
+    component: CloseRestaurantView
   },
 ]
 

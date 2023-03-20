@@ -1,7 +1,7 @@
 <template>
   <div>
-    เปิดร้านวันที่ {{  timestamp }}
-    <c-button @click='open()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+    ปิดร้านวันที่ {{  timestamp }}
+    <c-button @click='close()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
                 ยืนยัน
     </c-button> 
 
@@ -10,8 +10,6 @@
 
 <script>
 import OrderApi from "@/store/OrderApi.js"
-import AuthUser from '@/store/AuthUser'
-
 import { CInput,CSelect,CNumberInput,
     CNumberInputField,
     CNumberInputStepper,
@@ -52,10 +50,10 @@ export default {
               const dateTime = date 
               this.timestamp = dateTime;
           },
-          async open(){
-            this.$swal("เปิดร้านสำเร็จ", `เปิดร้านวันที่ ${this.timestamp}`, "success")
+          async close(){
+            this.$swal("เปิดร้านสำเร็จ", `ปิดร้านวันที่ ${this.timestamp}`, "success")
 
-            await AuthUser.dispatch("open");
+            await AuthUser.dispatch("close");
 
             this.$router.push("/orderView");
 

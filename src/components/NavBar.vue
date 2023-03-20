@@ -35,23 +35,48 @@
           </c-menu>
         </router-link> -->
   
-        <router-link to="/register">
-          <c-menu :close-on-select="false">
-            <c-menu-button mx="1" variant-color="red">
-              Register
-            </c-menu-button>
-          </c-menu>
-        </router-link>
+        <div v-if="!isLogin()">
+            <router-link to="/register">
+                <c-menu :close-on-select="false">
+                    <c-menu-button mx="1" variant-color="red">
+                    Register
+                    </c-menu-button>
+                </c-menu>
+            </router-link>
+        </div>
   
-        <router-link to="/login">
-          <c-menu :close-on-select="false">
-            <c-menu-button mx="1" variant-color="red">
-              Login
-            </c-menu-button>
-          </c-menu>
-        </router-link>
+        <div v-if="!isLogin()">
+            <router-link to="/login">
+                <c-menu :close-on-select="false">
+                    <c-menu-button mx="1" variant-color="red">
+                    Login
+                    </c-menu-button>
+                </c-menu>
+            </router-link>
+        </div>
+
+
+        <div v-if="openRes()">
+          <router-link to="/openRestaurantView">
+            <c-menu :close-on-select="false">
+              <c-menu-button mx="1" variant-color="red">
+                Open Restaurant
+              </c-menu-button>
+            </c-menu>
+          </router-link>
+        </div>
+
+        <div v-if="openRes()">
+          <router-link to="/closeRestaurantView">
+            <c-menu :close-on-select="false">
+              <c-menu-button mx="1" variant-color="red">
+                Close Restaurant
+              </c-menu-button>
+            </c-menu>
+          </router-link>
+        </div>
         
-        <div >
+        <div v-if="openRes()">
           <router-link to="/createMenu">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -61,7 +86,7 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/createIngredientView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -71,7 +96,7 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/allMenuView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -81,7 +106,7 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/allIngredientView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -91,7 +116,7 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/tableView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -102,7 +127,7 @@
         </div>
   
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/orderView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -112,7 +137,7 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/checkBillView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -122,11 +147,21 @@
           </router-link>
         </div>
   
-        <div  >
+        <div  v-if="isOpen()">
           <router-link to="/dashboardView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
                 Dashboard
+              </c-menu-button>
+            </c-menu>
+          </router-link>
+        </div>
+
+        <div  v-if="isLogOut() ">
+          <router-link to="/login">
+            <c-menu :close-on-select="false">
+              <c-menu-button @click="logout" mx="1" variant-color="red">
+                Log Out
               </c-menu-button>
             </c-menu>
           </router-link>
@@ -184,6 +219,41 @@
         isLogin(){
             console.log("AuthUser.getters.isAuthen" , AuthUser.getters.isAuthen)
             return AuthUser.getters.isAuthen
+        },
+        isLogOut(){
+            console.log("AuthUser.getters.isAuthen" , AuthUser.getters.isAuthen)
+            return AuthUser.getters.isAuthen
+        },
+        isOpen(){
+            console.log("isOpen" , AuthUser.getters.isOpen)
+            console.log("isAuthen" , AuthUser.getters.isAuthen)
+
+            if(AuthUser.getters.isOpen || AuthUser.getters.isAuthen )
+                return false
+        },
+        openRes(){
+            console.log("openRes isOpen" , AuthUser.getters.isOpen)
+            console.log("openRes isAuthen" , AuthUser.getters.isAuthen)
+            if(!AuthUser.getters.isOpen || AuthUser.getters.isAuthen )
+            {
+                console.log("return false")
+
+                return false
+
+            }
+            if(AuthUser.getters.isOpen || AuthUser.getters.isAuthen)
+            {
+                console.log("return true")
+
+                return true
+
+            }
+        },
+        async logout(){
+            let res = await AuthUser.dispatch("logout");
+          this.$swal("ออกจากระบบสำเร็จ" , "success");
+
+          this.$router.push("/login");
         }
       }
   };
