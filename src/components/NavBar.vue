@@ -35,7 +35,7 @@
           </c-menu>
         </router-link> -->
   
-        <div v-if="!isLogin()">
+        <div v-if="isLogin()">
             <router-link to="/register">
                 <c-menu :close-on-select="false">
                     <c-menu-button mx="1" variant-color="red">
@@ -45,7 +45,7 @@
             </router-link>
         </div>
   
-        <div v-if="!isLogin()">
+        <div v-if="isLogin()">
             <router-link to="/login">
                 <c-menu :close-on-select="false">
                     <c-menu-button mx="1" variant-color="red">
@@ -66,7 +66,7 @@
           </router-link>
         </div>
 
-        <div v-if="openRes()">
+        <div v-if="isOpen()">
           <router-link to="/closeRestaurantView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -76,7 +76,7 @@
           </router-link>
         </div>
         
-        <div v-if="openRes()">
+        <div v-if="isClose()">
           <router-link to="/createMenu">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -86,7 +86,7 @@
           </router-link>
         </div>
   
-        <div  v-if="isOpen()">
+        <div  v-if="isClose()">
           <router-link to="/createIngredientView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -96,7 +96,7 @@
           </router-link>
         </div>
   
-        <div  v-if="isOpen()">
+        <div  v-if="isClose()">
           <router-link to="/allMenuView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -106,7 +106,7 @@
           </router-link>
         </div>
   
-        <div  v-if="isOpen()">
+        <div  v-if="isClose()">
           <router-link to="/allIngredientView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -116,7 +116,7 @@
           </router-link>
         </div>
   
-        <div  v-if="isOpen()">
+        <div  v-if="isClose()">
           <router-link to="/tableView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -147,7 +147,7 @@
           </router-link>
         </div>
   
-        <div  v-if="isOpen()">
+        <div  v-if="isClose()">
           <router-link to="/dashboardView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
@@ -207,50 +207,135 @@
                   recipe_id:0,
               },
               logedIn:"",
+              open:"",
+              close:"",
+              logedOut:"",
+
               count:0,
           }
       },
       async created(){
           console.log("App Created");
-          localStorage.setItem('logedIn', "no");
+
+        //   localStorage.setItem('logedIn', JSON.stringify("no"));
+        //   localStorage.setItem('open', JSON.stringify("no"));
+        //   localStorage.setItem('close', JSON.stringify("yes"));
+        //   localStorage.setItem('logedOut', JSON.stringify("yes"));
+
+
+
+          this.logedIn = JSON.parse(localStorage.getItem("logedIn"));
+            this.open = JSON.parse(localStorage.getItem("open"));
+            this.close = JSON.parse(localStorage.getItem("close"));
+            this.logedOut = JSON.parse(localStorage.getItem("logedOut"));
 
       },
       methods:{
         isLogin(){
-            console.log("AuthUser.getters.isAuthen" , AuthUser.getters.isAuthen)
-            return AuthUser.getters.isAuthen
-        },
-        isLogOut(){
-            console.log("AuthUser.getters.isAuthen" , AuthUser.getters.isAuthen)
-            return AuthUser.getters.isAuthen
-        },
-        isOpen(){
-            console.log("isOpen" , AuthUser.getters.isOpen)
-            console.log("isAuthen" , AuthUser.getters.isAuthen)
+            this.logedIn = JSON.parse(localStorage.getItem("logedIn"));
+            this.open = JSON.parse(localStorage.getItem("open"));
+            this.close = JSON.parse(localStorage.getItem("close"));
+            console.log("logedIn" , this.logedIn)
+            console.log("open" , this.open)
+            console.log("close" , this.close)
+            console.log("logedOut" , this.logedOut)
 
-            if(AuthUser.getters.isOpen || AuthUser.getters.isAuthen )
-                return false
-        },
-        openRes(){
-            console.log("openRes isOpen" , AuthUser.getters.isOpen)
-            console.log("openRes isAuthen" , AuthUser.getters.isAuthen)
-            if(!AuthUser.getters.isOpen || AuthUser.getters.isAuthen )
+
+            if(this.logedIn == "no")
             {
-                console.log("return false")
+                console.log("this.logedIn == no")
+                return true
+
+            }
+            else if(this.logedIn == "yes")
+            {
+                console.log("this.logedIn == yes")
 
                 return false
 
             }
-            if(AuthUser.getters.isOpen || AuthUser.getters.isAuthen)
+        },
+        isLogOut(){
+            console.log("isLogOut ==========================")
+            this.logedOut = JSON.parse(localStorage.getItem("logedOut"));
+
+            if(this.logedOut == "yes")
             {
-                console.log("return true")
+                console.log("this.logedOut == yes")
+                return false
+
+            }
+            else if(this.logedOut == "no")
+            {
+                console.log("this.logedOut == no")
 
                 return true
+
+            }
+            console.log("=============================")
+
+        },
+        isOpen(){
+           this.close = JSON.parse(localStorage.getItem("close"));
+
+            if(this.close == "no" && this.logedIn == "yes")
+            {
+                console.log("this.close == yes")
+                return true
+
+            }
+            else if(this.close == "yes")
+            {
+                console.log("this.close == no")
+
+                return false
+
+            }
+        },
+        isClose(){
+            this.close = JSON.parse(localStorage.getItem("close"));
+            console.log("close ==========",this.close )
+            console.log("logedIn ==========",this.logedIn )
+
+            if(this.close == "yes" && this.logedIn == "yes")
+            {
+                console.log("this.closefsd == yes")
+                return true
+
+            }
+            else if(this.close == "no")
+            {
+                console.log("this.close == no")
+
+                return false
+
+            }
+        },
+        openRes(){
+            this.close = JSON.parse(localStorage.getItem("close"));
+            console.log("close ==========",this.close )
+            console.log("logedIn ==========",this.logedIn )
+
+            if(this.close == "yes" && this.logedIn == "yes")
+            {
+                console.log("this.closefsd == yes")
+                return true
+
+            }
+            else if(this.close == "no")
+            {
+                console.log("this.close == no")
+
+                return false
 
             }
         },
         async logout(){
             let res = await AuthUser.dispatch("logout");
+          localStorage.setItem('logedOut', JSON.stringify("yes"));
+          localStorage.setItem('logedIn', JSON.stringify("no"));
+
+
           this.$swal("ออกจากระบบสำเร็จ" , "success");
 
           this.$router.push("/login");

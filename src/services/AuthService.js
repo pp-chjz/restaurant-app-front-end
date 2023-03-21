@@ -50,6 +50,8 @@ export default {
       console.log(body);
 
       let res = await backendInstance.post(`/api/auth/register`, body);
+      localStorage.setItem(auth_key, JSON.stringify(res.data));
+
       console.log(res.data);
       return {
         success: true,

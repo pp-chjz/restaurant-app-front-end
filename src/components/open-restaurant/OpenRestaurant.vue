@@ -11,6 +11,8 @@
 <script>
 import OrderApi from "@/store/OrderApi.js"
 import AuthUser from '@/store/AuthUser'
+import backendInstance, { auth } from "@/services/backendInstance";
+
 
 import { CInput,CSelect,CNumberInput,
     CNumberInputField,
@@ -41,7 +43,7 @@ export default {
           }
       },
       async created(){
-          console.log("Open Restaurant Created");
+          console.log("Open Restaurant Created" , auth);
           this.getNow();
   
       },
@@ -56,6 +58,7 @@ export default {
             this.$swal("เปิดร้านสำเร็จ", `เปิดร้านวันที่ ${this.timestamp}`, "success")
 
             await AuthUser.dispatch("open");
+            localStorage.setItem('close', JSON.stringify("no"));
 
             this.$router.push("/orderView");
 

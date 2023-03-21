@@ -106,6 +106,8 @@ import { CInputRightElement } from '@chakra-ui/vue'
 import { CImage } from '@chakra-ui/vue'
 import { CFormControl } from '@chakra-ui/vue'
 import { CFormLabel, CGrid, CGridItem, CText } from '@chakra-ui/vue'
+import backendInstance, { auth } from "@/services/backendInstance";
+
 
 export default {
   name: 'HelloWorld',
@@ -136,7 +138,7 @@ export default {
     }
   },
   async created(){
-    console.log("LoginViewCreated")
+    console.log("LoginViewCreated" , auth)
   },
   methods:{
     async summit(){
@@ -146,7 +148,9 @@ export default {
 
       if (res.success) {
           this.$swal("เข้าสู่ระบบสำเร็จ" , `ยินดีต้อนรับคุณ ${res.user.name}`, "success");
-          localStorage.setItem('logedIn', "yes");
+          localStorage.setItem('logedIn', JSON.stringify("yes"));
+          localStorage.setItem('logedOut', JSON.stringify("no"));
+
 
           this.$router.push("/openRestaurantView");
         }

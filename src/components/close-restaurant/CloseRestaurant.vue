@@ -10,6 +10,8 @@
 
 <script>
 import OrderApi from "@/store/OrderApi.js"
+import AuthUser from '@/store/AuthUser'
+
 import { CInput,CSelect,CNumberInput,
     CNumberInputField,
     CNumberInputStepper,
@@ -51,11 +53,12 @@ export default {
               this.timestamp = dateTime;
           },
           async close(){
-            this.$swal("เปิดร้านสำเร็จ", `ปิดร้านวันที่ ${this.timestamp}`, "success")
+            this.$swal("ปิดร้านสำเร็จ", `ปิดร้านวันที่ ${this.timestamp}`, "success")
 
             await AuthUser.dispatch("close");
+            localStorage.setItem('close', JSON.stringify("yes"));
 
-            this.$router.push("/orderView");
+            this.$router.push("/openRestaurantView");
 
           }
           

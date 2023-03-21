@@ -9,7 +9,7 @@ Vue.use(Vuex);
 const initialState = {
   user: auth ? auth.user : "",
   jwt: auth ? auth.jwt : "",
-  isAuthen: false ,
+  isAuthen: auth ? false : true,
   isActivate: auth ? true : false,
   isOpen: false,
   isClose: true,
