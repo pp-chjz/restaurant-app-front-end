@@ -22,26 +22,26 @@
 
         <c-flex ml="5%" mt="4%" align="center">
 
-            <c-input v-model="payload.menu_name" placeholder="search name" w="55%"/>
+            <c-input v-model="payload.menu_name" placeholder="search name" w="25%"/>
 
-            <c-box w="45%" mx="3%">
-                <c-select v-model="menu_status" placeholder="Select status" >
-                <option value="1">In Stock</option>
-                <option value="2" bg="yellow">Out of stock</option>
-                </c-select>
-            </c-box>
+                <c-box ml="2%">
+                    <c-select v-model="menu_status" placeholder="Select status" >
+                    <option value="1">In Stock</option>
+                    <option value="2" bg="yellow">Out of stock</option>
+                    </c-select>
+                </c-box>
+                <c-box ml="2%">
+                    <c-select v-model="menu_catagory" placeholder="Select catagory" >
+                    <option value="1">Food</option>
+                    <option value="2" bg="yellow">Drink</option>
+                    <option value="3" bg="yellow">Dessert</option>
+                    </c-select>
+                </c-box>
 
-            <c-box w="45%">
-                <c-select v-model="menu_catagory" placeholder="Select catagory" w="45%">
-                <option value="1">Food</option>
-                <option value="2" bg="yellow">Drink</option>
-                <option value="3" bg="yellow">Dessert</option>
-                </c-select>
-            </c-box>
-            <c-button @click='search()' width="full" color="#2D3748" variant="solid" w="15%">
+            <c-button @click='search()' width="full" color="#2D3748" variant="solid" w="7%"  ml="2%">
                 search
               </c-button> 
-              <c-button @click='clear()' width="full" variant-color="red" variant="solid" w="15%">
+              <c-button @click='clear()' width="full" variant-color="yellow" variant="solid" w="7%" ml="%">
                 clear
               </c-button> 
         </c-flex>
@@ -249,8 +249,8 @@ export default {
                     this.payload.menu_name = ""
                     this.payload.menu_status = 0
                     this.payload.menu_catagory = 0
-                    this.menu_status = "",
-                    this.menu_catagory = "",
+                    // this.menu_status = "",
+                    // this.menu_catagory = "",
 
                     this.$forceUpdate()
                 }
