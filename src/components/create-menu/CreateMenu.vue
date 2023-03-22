@@ -296,14 +296,21 @@ export default {
             this.form.catagories = parseInt(this.catagories);
             this.form.menu_status = parseInt(this.menu_status);
             this.form.price = parseFloat(this.form.price);
-
-            console.log(this.form)
-            let res = MenuApi.dispatch("createMenu" ,this.form);
-            console.log(res);
-            this.$router.push("/allMenuView");
+            if (this.form.name_ENG == "" || this.form.name_TH == "" || this.form.catagories == "" || this.form.menu_status == "" || this.form.price == "" || this.form.size == "") {
+              this.$swal({
+                  icon: 'error',
+                  title: 'ไม่สามารถเพิ่มเมนูได้',
+                  text: 'กรุณากรอกให้ข้อมูลให้ครบถ้วน',
+                  footer: '<a href="">Why do I have this issue?</a>'
+              })
+            } else {
+              console.log(this.form)
+              let res = MenuApi.dispatch("createMenu" ,this.form);
+              console.log(res);
+              this.$router.push("/allMenuView");
+            }
 
         },
-
         async addIngredient(){
           console.log("ingredient = ", this.ingredient);
         }
