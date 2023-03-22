@@ -1,44 +1,49 @@
 <template>
     <div>
         <c-box 
-        px="4rem" 
-        py="10px"
-        width="full" 
-        maxWidth="500vh"
-        bg="#1F1D2B"
-      >
-        <c-heading
-        size="xl"
-        mr="85%"
-        mt="2rem"
-        color="white"
-        opacity="0.8"
-        fontWeight="bold"
-        lineHeight="1.5"
-        white-space="pre-line"
+            px="4rem" 
+            py="10px"
+            width="full" 
+            maxWidth="500vh"
+            bg="#1F1D2B"
         >
+        <c-heading
+            size="xl"
+            mr="85%"
+            mt="2rem"
+            color="white"
+            opacity="0.8"
+            fontWeight="bold"
+            lineHeight="1.5"
+            white-space="pre-line"
+            >
         {{ orders_use.data.length }} {{ "Orders" }}
         </c-heading>
 
-        <c-box ml="87%" w="150px">
-            <c-select v-model="orderStatus" placeholder="Select status">
-            <option value="1">New</option>
-            <option value="2" bg="yellow">Cooking</option>
-            <option value="4" bg="yellow">All served / Unpaid</option>
-            <option value="3" bg="yellow">Waiting for checkbill</option>
-            <option value="5">Complete</option>
-            </c-select>
+        <c-flex ml="3%" mt="4%" align="center" mb="5%">
+        
+            <c-box >
+                <c-select v-model="orderStatus" placeholder="Select status" size="md">
+                <option value="1">New</option>
+                <option value="2" bg="yellow">Cooking</option>
+                <option value="4" bg="yellow">All served / Unpaid</option>
+                <option value="3" bg="yellow">Waiting for checkbill</option>
+                <option value="5">Complete</option>
+                </c-select>
+            </c-box>
 
-            <c-select v-model="table_number" placeholder="Select table" size="md" borderColor="gray.800">
-                <option v-for="index in table" :value="index" > {{ index }}</option>
-            </c-select>
-            <c-button @click='search()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+            <c-box ml="2" w="13%">
+                <c-select v-model="table_number" placeholder="Select table" size="md"  borderColor="gray.800">
+                    <option v-for="index in table" :value="index" > {{ index }}</option>
+                </c-select>
+            </c-box>
+            <c-button @click='search()'  width="full" color="#2D3748" size="md" variant="solid" w="7%" ml="2%">
                 search
               </c-button> 
-              <c-button @click='clear()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+              <c-button @click='clear()'  width="full" variant-color="yellow" variant="solid"  w="7%">
                 clear
               </c-button> 
-        </c-box>
+        </c-flex>
 
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10" >
     
@@ -185,7 +190,7 @@ export default {
                 table_number: 0,
             },
             table_number: "",
-            orderStatus:"",
+            orderStatus: "",
             table:[],
             num:0,
         }
@@ -204,65 +209,83 @@ export default {
             this.num = i+1
             this.table.push(this.num.toString())
         }
-
+        console.log("Order Use", this.orders_use);
     },
     methods:{
         async clear(){
             await OrderApi.dispatch("fetchOrder")
-        this.orders_use = OrderApi.getters.getOrders
+            this.table_number = "";
+            this.orderStatus = "";
+            this.orders_use = OrderApi.getters.getOrders
         },
         async search(){
             console.log("search")
-            if(this.table_number == "" && this.orderStatus == "")
-            {
-                this.$swal({
+            for(let i = 0; i < this.orders_use.data.length ; i++){
+                if (this.orders_use.data[i].table_number == this.table_number) {
+                    if(this.table_number == "" && this.orderStatus == "") {
+                        this.$swal({
+                            icon: 'error',
+                            title: 'ไม่สามารถค้นหาได้',
+                            text: 'กรุณาเลือกรายการที่จะค้นหา',
+                            footer: '<a href="">Why do I have this issue?</a>'
+                        })
+
+                    } else if(this.table_number == "") {
+                        this.payload.order_status = parseInt(this.orderStatus);
+                        await OrderApi.dispatch("fetchSearchOrder" , this.payload)
+                        this.orders_use = OrderApi.getters.getSearchOrders
+                        this.orders_use = this.orders_use.data
+
+                        console.log("orders_use = " ,this.orders_use)
+
+                        this.$forceUpdate()
+
+                        return true;
+
+                    } else if(this.orderStatus == "") {
+                        this.payload.table_number = parseInt(this.table_number);
+                        await OrderApi.dispatch("fetchSearchOrder", this.payload)
+                        this.orders_use = OrderApi.getters.getSearchOrders
+                        this.orders_use = this.orders_use.data
+
+                        console.log("payload = " ,this.payload)
+
+                        this.$forceUpdate()
+                        return true;
+                        
+                    } else if(this.table_number != this.tables) {
+                        this.payload.table_number = parseInt(this.table_number);
+                        await OrderApi.dispatch("fetchSearchOrder", this.payload)
+                        this.orders_use = OrderApi.getters.getSearchOrders
+                        this.orders_use = this.orders_use.data
+
+                        console.log("payload = " ,this.payload)
+
+                        this.$forceUpdate()
+                        return true;
+                        
+                    } else {
+                        this.payload.order_status = parseInt(this.orderStatus);
+                        this.payload.table_number = parseInt(this.table_number);
+                        console.log("payload = " ,this.payload)
+                        await OrderApi.dispatch("fetchSearchOrder", this.payload)
+                        this.orders_use = OrderApi.getters.getSearchOrders
+                        this.orders_use = this.orders_use.data
+
+                        this.$forceUpdate()
+                        return true;
+                    }
+                }
+                console.log("table_number = ", this.orders_use.data[i].table_number)
+                        
+            }
+            this.$swal({
                     icon: 'error',
                     title: 'ไม่สามารถค้นหาได้',
                     text: 'กรุณาเลือกรายการที่จะค้นหา',
                     footer: '<a href="">Why do I have this issue?</a>'
                 })
-
-            }
-            else if(this.table_number == "")
-            {
-                this.payload.order_status = parseInt(this.orderStatus);
-                await OrderApi.dispatch("fetchSearchOrder" , this.payload)
-                this.orders_use = OrderApi.getters.getSearchOrders
-                this.orders_use = this.orders_use.data
-
-                console.log("orders_use = " ,this.orders_use)
-
-                this.$forceUpdate()
-
-            }
-            else if(this.orderStatus == "")
-            {
-                this.payload.table_number = parseInt(this.table_number);
-                await OrderApi.dispatch("fetchSearchOrder", this.payload)
-                this.orders_use = OrderApi.getters.getSearchOrders
-                this.orders_use = this.orders_use.data
-
-                console.log("payload = " ,this.payload)
-
-                this.$forceUpdate()
-                
-            }
-
-            else
-            {
-                this.payload.order_status = parseInt(this.orderStatus);
-                this.payload.table_number = parseInt(this.table_number);
-                console.log("payload = " ,this.payload)
-                await OrderApi.dispatch("fetchSearchOrder", this.payload)
-                this.orders_use = OrderApi.getters.getSearchOrders
-                this.orders_use = this.orders_use.data
-
-                this.$forceUpdate()
-            }
-            
-
-            
-                
+              
         },
         editOrder(){
             console.log("edit order")
