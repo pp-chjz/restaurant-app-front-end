@@ -39,6 +39,33 @@
         </c-flex>
 
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
+        <!-- ช่องสำหรับ add menu -->
+        <div> 
+            <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="#1F1D2B" fontSize="xl">
+                <c-flex jusify="center" >
+                    <c-button  ml="40%" color="#FD821B" size="lg" variant-color="white" mt="45%">
+                        <a @click='edit(ingredient.id)' :href="'/createIngredientView'" v-bind="ingredient"> 
+                            <c-icon name="add"/>
+                        </a>
+                        <!-- <a @click='edit(ingredient.id)' :href="'#/job/'+ingredient.id" v-bind="ingredient">Edit dish</a> -->
+
+                    </c-button>
+                </c-flex>
+
+                <c-box
+                    font-weight="semibold"
+                    as="h4"
+                    line-height="tight"
+                    is-truncated
+                >
+                    <c-text color="#EA7C69">
+                        Add new ingredient
+                    </c-text>
+                
+                </c-box>
+            </c-box>
+        </div>
+        <!-- ช่องสำหรับ add menu -->
     <div v-for="index in ingredient" :key="index.id">
         <ingredient-card
         v-bind:ingredient="index"></ingredient-card>
@@ -105,6 +132,7 @@ export default {
     async created(){
         console.log("AllIngredientPage Created");
         await this.fetchIngredient()
+        console.log("ingredient = ", this.ingredient)
     },
     methods:{
         async search(){
@@ -158,13 +186,13 @@ export default {
         async fetchIngredient(){
             // console.log("fetchMenu")
             await IngredientApi.dispatch("fetchIngredient")
-            this.ingredients = IngredientApi.getters.getIngredients
-            console.log(this.ingredients)
-            for(let i = 0; i<this.ingredients.length ; i++){
-                this.ingredient.push(this.ingredients[i])
-            }
-            this.ingredient[0].ingredient_ID = 'true';
-            console.log("ingredient = ", this.ingredient)
+            this.ingredient = IngredientApi.getters.getIngredients
+            // console.log(this.ingredients)
+            // for(let i = 0; i<this.ingredients.length ; i++){
+            //     this.ingredient.push(this.ingredients[i])
+            // }
+            // this.ingredient[0].ingredient_ID = 'true';
+            // console.log("ingredient = ", this.ingredient)
 
         },
         async editStatus(id){

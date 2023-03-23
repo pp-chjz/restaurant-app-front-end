@@ -1,36 +1,10 @@
 <template>
     <div>
-        <!-- ช่องสำหรับ add menu -->
-        <div v-if="ingredient.ingredient_ID === 'true' "> 
-            <c-box class="box"  mt="4rem" m="2rem" maxW="sm" height="430px"  rounded="lg" overflow="hidden"  border-color="salmon" bg="#1F1D2B" fontSize="xl">
-                <c-flex jusify="center" >
-                    <c-button  ml="40%" color="#FD821B" size="lg" variant-color="white" mt="45%">
-                        <a @click='edit(ingredient.id)' :href="'/createIngredientView'" v-bind="ingredient"> 
-                            <c-icon name="add"/>
-                        </a>
-                        <!-- <a @click='edit(ingredient.id)' :href="'#/job/'+ingredient.id" v-bind="ingredient">Edit dish</a> -->
-
-                    </c-button>
-                </c-flex>
-
-                <c-box
-                    font-weight="semibold"
-                    as="h4"
-                    line-height="tight"
-                    is-truncated
-                >
-                    <c-text color="#EA7C69">
-                        Add new ingredient
-                    </c-text>
-                
-                </c-box>
-            </c-box>
-        </div>
-        <!-- ช่องสำหรับ add menu -->
+        
 
 
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
-        <c-box v-if="ingredient.ingredient_ID === 'false'"  m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#1F1D2B" fontSize="xl">
+        <c-box  m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#1F1D2B" fontSize="xl">
             
             <!-- <c-image :src="ingredient.image[0].path" alt="cat" /> -->
             <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/150" ml="30%" mt="3%"/>
@@ -75,6 +49,9 @@
 
                     <c-button @click="editStatus(ingredient.id)" ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
                         Edit status
+                    </c-button>
+                    <c-button @click="deleteIngredient(ingredient.id , ingredient.ingredient_name_TH)" ml="4%" w="100rem" mt="1rem" size="lg" variant-color="red" >
+                        Delete
                     </c-button>
                 </c-flex>
 
@@ -135,8 +112,8 @@ export default {
         }
     },
     async created(){
-        console.log("IngredientCard Created");
-        await this.fetchIngredient()
+        console.log("IngredientCard Created"  , this.ingredient);
+        // await this.fetchIngredient()
     },
     methods:{
         
@@ -165,7 +142,15 @@ export default {
             else if(this.payload.ingredient_status == 1)
                 this.ingredient.ingredient_status = 'in stock'
 
-        }
+        },
+        async deleteIngredient(id,name){
+            console.log("removeIngredient id",id)
+            await IngredientApi.dispatch('removeIngredient', id)
+          this.$swal("ลบรายการสำเร็จ" , `ลบ ${name}สำเร็จ`, "success");
+
+          this.$router.push("/allIngredientView").catch(()=>{});
+          this.$forceUpdate();
+        },
     }
 }
 </script>

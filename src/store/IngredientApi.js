@@ -18,6 +18,9 @@ export default new Vuex.Store({
       getIngredients: (state) => state.ingredients,
       getIngredientsStatus: (state) => state.ingredientStatus,
       getSearchIngredients: (state) => state.searchedIngredients,
+      // removeIngredient(state, data) {
+      //   state.ingredients = state.ingredients.map((ingredient) => ingredient.id != data.id);
+      // },
 
 
   },
@@ -79,7 +82,15 @@ export default new Vuex.Store({
               message: "ตรวจสอบฟอร์มกรอกข้อมูลอีกครั้ง",
             };
           }
-    }
+    },
+    async removeIngredient({ commit },  id ) {
+      let header = AuthService.getApiHeader();
+      console.log("removeIngredient =  id",id)
+
+        let res = await backendInstance.delete(`/api/ingredient/${id}`,header);
+        console.log("delete" , res)
+        // commit("removeIngredient", res.data);
+    },
   },
   modules: {
   }
