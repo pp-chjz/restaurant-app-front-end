@@ -151,6 +151,9 @@
                     <c-button ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
                         <a @click='edit(index.id)' :href="'/editMenuView/'+index.id" v-bind="index">Edit dish</a>
                     </c-button>
+                    <c-button ml="4%" w="100rem" mt="1rem" size="lg" variant-color="red" >
+                        <a @click='deleteMenu(index.id,index.name_TH)' v-bind="index">Delete</a>
+                    </c-button>
                 </c-flex>
 
             </c-box>
@@ -268,6 +271,13 @@ export default {
                     this.menu_catagory = "",
             await this.fetchMenu()
 
+        },
+        async deleteMenu(id,name){
+            console.log("deleteMenu id",id)
+            await MenuApi.dispatch('removeMenu', id)
+          this.$swal("ลบรายการสำเร็จ" , `ลบ ${name}สำเร็จ`, "success");
+
+            await this.clear();
         },
         async fetchMenu(){
             // console.log("fetchMenu")

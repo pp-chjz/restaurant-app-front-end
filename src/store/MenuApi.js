@@ -18,6 +18,9 @@ export default new Vuex.Store({
       getMenus: (state) => state.menus,
       getMenuById: (state) => state.menuById,
       getSearchMenus: (state) => state.searchedMenus,
+      removeMenu(state, data) {
+        state.menus = state.menus.map((menu) => menu.id != data.id);
+      },
 
   },
   mutations: {
@@ -84,7 +87,15 @@ export default new Vuex.Store({
       let header = AuthService.getApiHeader();
       let res = await backendInstance.put(`/api/menu/${id}` , payload ,header);
       console.log("edit = ", res)
-    }
+    },
+    async removeMenu({ commit },  id ) {
+      let header = AuthService.getApiHeader();
+      console.log("removeMenu =  id",id)
+
+        let res = await backendInstance.delete(`/api/menu/${id}`,header);
+        console.log("delete" , res)
+        commit("removeMenu", res.data);
+    },
   },
   modules: {
   }

@@ -12,6 +12,8 @@ export default new Vuex.Store({
       orders:[],
       ordersUnpaid:[],
       searchedOrders:[],
+      ordersWaitForPay:[],
+
 
 
 
@@ -21,6 +23,8 @@ export default new Vuex.Store({
       getOrders: (state) => state.orders,
       getUnpaidOrders: (state) => state.ordersUnpaid,
       getSearchOrders: (state) => state.searchedOrders,
+      getWaitForPayOrders: (state) => state.ordersWaitForPay,
+
 
 
 
@@ -38,6 +42,9 @@ export default new Vuex.Store({
     async setSearchOrder(state, { res }){
       state.searchedOrders = (await res)
     },
+    async setWaitForPayOrder(state, { res }){
+      state.ordersWaitForPay = (await res)
+    },
   },
   actions: {
     async fetchSearchOrder({ commit } , payload) {
@@ -48,6 +55,14 @@ export default new Vuex.Store({
       console.log("fetchSearchOrder" , res.data)
       commit("setSearchOrder", {res} );
   },
+  async waitForPayOrder({ commit } ) {
+    console.log("waitForPayOrder")
+    let header = AuthService.getApiHeader();
+    console.log("header = " , header)
+    let res = await backendInstance.get(`/api/orders/wait-for-check-bill` ,header);
+    console.log("waitForPayOrder" , res.data)
+    commit("setWaitForPayOrder", {res} );
+},
     async updateFoodStatus({ commit } , payload) {
       console.log("updateFoodStatus")
       let order_id = payload.order_id
@@ -63,6 +78,18 @@ export default new Vuex.Store({
     console.log("header = " , header)
     let res = await backendInstance.put(`/api/orders/${order_id}/update-order-status` , payload , header);
     console.log("updateOrderStatus", res)
+},
+async updateOrderStatusPay({ commit } , payload) {
+  // console.log("updateOrderStatusPay")
+  let body = {
+    orders : payload
+  }
+  console.log("updateOrderStatusPay",body)
+
+  let header = AuthService.getApiHeader();
+  console.log("header = " , header)
+  let res = await backendInstance.post(`/api/orders/update-order-status-pay` , body , header);
+  console.log("updateOrderStatusPay", res)
 },
       async fetchOrder({ commit }) {
         console.log("fetchOrder")
