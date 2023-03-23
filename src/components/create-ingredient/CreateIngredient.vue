@@ -128,11 +128,19 @@ export default {
             this.form.ingredient_status = parseInt(this.ingredient_status);
             this.form.QTY = parseInt(this.form.QTY);
 
-            console.log(this.form)
-            let res = IngredientApi.dispatch("createIngredient" ,this.form);
-            console.log(res);
-            this.$router.push("/allMenuView");
-
+            if (this.form.ingredient_name_ENG == "" || this.form.ingredient_name_TH == "" || this.form.QTY == "" || this.form.ingredient_status == "") {
+                this.$swal({
+                  icon: 'error',
+                  title: 'ไม่สามารถเพิ่มวัตถุดิบได้',
+                  text: 'กรุณากรอกให้ข้อมูลให้ครบถ้วน',
+                  footer: '<a href="">Why do I have this issue?</a>'
+                })
+            } else {
+                console.log(this.form)
+                let res = IngredientApi.dispatch("createIngredient" ,this.form);
+                console.log(res);
+                this.$router.push("/allMenuView");
+            }
         }
     }
 }

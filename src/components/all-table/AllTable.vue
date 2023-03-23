@@ -53,8 +53,25 @@
     <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10">
     <div v-for="index in tables.data" :key="index.id">
         <!-- ช่องสำหรับแสดงโต๊ะทั้งหมด -->
-        <c-box m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#9FDDB9" fontSize="xl">
-            <c-box
+        <c-box m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="white" bg="#9FDDB9" fontSize="xl">
+            <c-box v-if="index.tablenum_status === 'avaliable'" bg="green.200" color="black"
+                    mt="8%"
+                    font-weight="semibold"
+                    as="h4"
+                    line-height="tight"
+                    is-truncated>
+                <c-text fontWeight="bold" fontSize="xl"> Table {{ index.id }}</c-text>
+            </c-box>
+
+            <c-box v-if="index.tablenum_status === 'full'" bg="red.200" color="black"
+                    mt="8%"
+                    font-weight="semibold"
+                    as="h4"
+                    line-height="tight"
+                    is-truncated>
+                <c-text fontWeight="bold" fontSize="xl"> Table {{ index.id }}</c-text>
+            </c-box>
+            <!-- <c-box
                     color="black"
                     mt="8%"
                     font-weight="semibold"
@@ -63,10 +80,10 @@
                     is-truncated
                 >
                     Table {{ index.id }}
-                </c-box>
+                </c-box> -->
             <c-box p="4">
                 <c-box
-                color="white"
+                color="black"
                     mt="1"
                     font-weight="semibold"
                     as="h4"
@@ -82,6 +99,7 @@
     </div>
     </c-simple-grid>
     </c-box>
+    {{ tables.data }}
   </div>
   
 </template>

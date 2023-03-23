@@ -20,20 +20,20 @@
         {{ "Products Management" }}
         </c-heading>
 
-        <c-flex align="center">
+        <c-flex ml="5%" mt="4%" align="center">
+            <c-input v-model="payloadSearch.ingredient_name" placeholder="search name" w="25%"/>
 
-            <c-input v-model="payloadSearch.ingredient_name" placeholder="search name" />
+            <c-box ml="2%" w="10%">
+                <c-select v-model="ingredient_status" placeholder="Select status">
+                <option value="1">In Stock</option>
+                <option value="2" bg="yellow">Out of stock</option>
+                </c-select>
+            </c-box>
 
-
-            <c-select v-model="ingredient_status" placeholder="Select status">
-            <option value="1">In Stock</option>
-            <option value="2" bg="yellow">Out of stock</option>
-            </c-select>
-
-            <c-button @click='search()' width="full" variant-color="yellow" variant="solid" size="lg">
+            <c-button @click='search()' width="full" color="#2D3748" variant="solid" w="7%"  ml="2%">
                 search
               </c-button> 
-              <c-button @click='clear()' width="full" variant-color="yellow" variant="solid" size="lg">
+              <c-button @click='clear()' width="full" variant-color="yellow" variant="solid" w="7%"  ml="%">
                 clear
               </c-button> 
         </c-flex>

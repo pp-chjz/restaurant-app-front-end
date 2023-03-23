@@ -6,7 +6,7 @@
         as="nav"
         px="2vw"
         py="5"
-        pr="60vh"
+        pr="40vh"
         w="100%"
         h="80px"
         alignItems="center"
