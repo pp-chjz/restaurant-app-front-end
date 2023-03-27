@@ -40,7 +40,11 @@
                         </c-flex>
                         
                         </c-box>
+
+                        
                     </div>
+                    <c-text color="white"> ราคารวม {{ index.total_price }} บาท </c-text> 
+
                     <c-button ml="4%" mt="1rem" size="lg" variant-color="orange" >
                         <a @click='pay(index)' v-bind="index">Pay Success</a>
                     </c-button>
