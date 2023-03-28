@@ -1,24 +1,5 @@
 <template>
     <div>
-        <c-box 
-            px="4rem" 
-            py="10px"
-            width="full"
-            maxWidth="500vh"
-            bg="#1F1D2B"
-        >
-        <c-heading
-            size="xl"
-            mr="83%"
-            mt="2rem"
-            color="white"
-            opacity="0.8"
-            fontWeight="bold"
-            lineHeight="1.5"
-            white-space="pre-line"
-        >
-        {{ "Check Bills" }}
-        </c-heading>
         <c-simple-grid :columns="[1, 1, 1, 3]" spacing="10" m="10" >
     
             <div v-for="index in orders_use" :key="index.id">
@@ -66,6 +47,9 @@
                 </c-box>
             </c-box>
 
+
+
+                
             <!-- <c-box maxW="sm" border-width="1px" rounded="lg" overflow="hidden" bg="#393C49">
 
                 <c-box v-if="index.order_status === 'wait_for_check_bill' " bg="blue.300" w="100%" p="4" color="black">
@@ -95,8 +79,6 @@
                 </c-box> -->
             </div>
         </c-simple-grid>
-        </c-box>
-        
 
     </div>
 </template>

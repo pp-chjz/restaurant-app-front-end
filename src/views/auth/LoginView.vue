@@ -132,8 +132,8 @@ export default {
   data(){
     return{
       form:{
-        email: 'baitoey@hotmail.com',
-        password: 'bt',
+        email: '',
+        password: '',
       }
     }
   },

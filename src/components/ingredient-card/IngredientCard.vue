@@ -1,5 +1,8 @@
 <template>
     <div>
+        
+
+
         <!-- ช่องสำหรับแสดงเมนูทั้งหมด -->
         <c-box  m="2rem" maxW="sm" border-width="3px" rounded="lg" overflow="hidden" border-color="#393C49" bg="#1F1D2B" fontSize="xl">
             
@@ -21,12 +24,13 @@
                     <c-badge rounded="full" px="5" variant-color="red" font-size="0.75em" v-if="ingredient.ingredient_status === 'out of stock'">
                     OUT OF STOCK
                     </c-badge>
+
                 
                 </c-box>
 
                 <c-box
                 color="white"
-                    mt="3"
+                    mt="1"
                     font-weight="semibold"
                     as="h4"
                     line-height="tight"
@@ -35,14 +39,14 @@
                     {{ ingredient.ingredient_name_ENG }} | {{ ingredient.ingredient_name_TH }}
                 </c-box>
 
-                <c-flex w="45%" justify="center" ml="55%" mt="1%">
+                <c-flex jusify="center">
+                    <c-box w="162%">
                     <c-select v-model="status" placeholder="Select Status"  size="md" mt="12%" borderColor="gray.800">
                         <option value="1">In Stock</option>
                         <option value="2">Out Of Stock</option>
                     </c-select>
-                </c-flex>
+                    </c-box>
 
-                <c-flex jusify="center" mt="2%">
                     <c-button @click="editStatus(ingredient.id)" ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
                         Edit status
                     </c-button>
@@ -139,13 +143,13 @@ export default {
                 this.ingredient.ingredient_status = 'in stock'
 
         },
-        async deleteIngredient(id, name){
+        async deleteIngredient(id,name){
             console.log("removeIngredient id",id)
             await IngredientApi.dispatch('removeIngredient', id)
-            this.$swal("ลบรายการสำเร็จ" , `ลบ ${name}สำเร็จ`, "success");
+          this.$swal("ลบรายการสำเร็จ" , `ลบ ${name}สำเร็จ`, "success");
 
-            this.$router.push("/allIngredientView").catch(()=>{});
-            this.$forceUpdate();
+          this.$router.push("/allIngredientView").catch(()=>{});
+          this.$forceUpdate();
         },
     }
 }

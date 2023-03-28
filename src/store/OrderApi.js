@@ -13,6 +13,9 @@ export default new Vuex.Store({
       ordersUnpaid:[],
       searchedOrders:[],
       ordersWaitForPay:[],
+      TotalOrdersByDate:[],
+      TotalCatagoryByDate:[],
+
 
 
 
@@ -24,6 +27,10 @@ export default new Vuex.Store({
       getUnpaidOrders: (state) => state.ordersUnpaid,
       getSearchOrders: (state) => state.searchedOrders,
       getWaitForPayOrders: (state) => state.ordersWaitForPay,
+      getTotalOrdersByDate: (state) => state.TotalOrdersByDate,
+      getTotalCatagoryByDate: (state) => state.TotalCatagoryByDate,
+
+
 
 
 
@@ -45,6 +52,12 @@ export default new Vuex.Store({
     async setWaitForPayOrder(state, { res }){
       state.ordersWaitForPay = (await res)
     },
+    async setTotalOrdersByDate(state, { res }){
+      state.TotalOrdersByDate = (await res)
+    },
+    async setTotalCatagoryByDate(state, { res }){
+      state.TotalCatagoryByDate = (await res)
+    },
   },
   actions: {
     async fetchSearchOrder({ commit } , payload) {
@@ -55,6 +68,33 @@ export default new Vuex.Store({
       console.log("fetchSearchOrder" , res.data)
       commit("setSearchOrder", {res} );
   },
+  async fetchTotalOrdersByDate({ commit } , payload ) {
+    console.log("TotalOrdersByDate payload = ",payload)
+    let body = {
+      date : payload.timestamp,
+      searchType: payload.type,
+    }
+    console.log("TotalOrdersByDate payload = ", body)
+
+    let header = AuthService.getApiHeader();
+    console.log("header = " , header)
+    let res = await backendInstance.post(`/api/orders/get-total-order-by-date` , body ,header);
+    console.log("TotalOrdersByDate" , res.data)
+    commit("setTotalOrdersByDate", {res} );
+},
+async fetchTotalCatagoryByDate({ commit } , payload ) {
+  let body = {
+    date : payload.timestamp,
+    searchType: payload.type,
+  }
+  console.log("fetchTotalCatagoryByDate payload = ", body)
+
+  let header = AuthService.getApiHeader();
+  console.log("header = " , header)
+  let res = await backendInstance.post(`/api/orders/get-total-catagories` , body ,header);
+  console.log("fetchTotalCatagoryByDate" , res.data)
+  commit("setTotalCatagoryByDate", {res} );
+},
   async waitForPayOrder({ commit } ) {
     console.log("waitForPayOrder")
     let header = AuthService.getApiHeader();

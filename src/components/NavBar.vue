@@ -2,11 +2,11 @@
     <div id="app">
       <c-simple-grid
       class="navbar"
-      :columns="1"
+      :columns="[1]"
         as="nav"
         px="2vw"
         py="5"
-        pr="70vh"
+        pr="40vh"
         w="100%"
         h="80px"
         alignItems="center"
@@ -16,7 +16,6 @@
       
       <c-flex
           wrap="wrap"
-          align="center"
           justify="center"
           :direction="['column', 'row', 'row', 'row']"
         >
@@ -35,6 +34,26 @@
             </c-menu-button>
           </c-menu>
         </router-link> -->
+  
+        <div v-if="isLogin()">
+            <router-link to="/register">
+                <c-menu :close-on-select="false">
+                    <c-menu-button mx="1" variant-color="red">
+                    Register
+                    </c-menu-button>
+                </c-menu>
+            </router-link>
+        </div>
+  
+        <div v-if="isLogin()">
+            <router-link to="/login">
+                <c-menu :close-on-select="false">
+                    <c-menu-button mx="1" variant-color="red">
+                    Login
+                    </c-menu-button>
+                </c-menu>
+            </router-link>
+        </div>
 
 
         <div v-if="openRes()">
@@ -50,7 +69,7 @@
         <div v-if="isOpen()">
           <router-link to="/closeRestaurantView">
             <c-menu :close-on-select="false">
-              <c-menu-button mx="1" variant-color="red" >
+              <c-menu-button mx="1" variant-color="red">
                 Close Restaurant
               </c-menu-button>
             </c-menu>
@@ -138,16 +157,15 @@
           </router-link>
         </div>
 
-        <div v-if="isLogOut() ">
+        <div  v-if="isLogOut() ">
           <router-link to="/login">
             <c-menu :close-on-select="false">
-              <c-menu-button @click="logout" ml="630%" variant-color="red">
+              <c-menu-button @click="logout" mx="1" variant-color="red">
                 Log Out
               </c-menu-button>
             </c-menu>
           </router-link>
         </div>
-  
   
         <!-- <div v-if="isAuthen()">
           <router-link to="/home">
@@ -160,33 +178,7 @@
         </div> -->
         
       </c-flex>
-      
-      
-
-      <c-flex mr="70%">
-        <div v-if="isLogin()" >
-            <router-link to="/register">
-                <c-menu :close-on-select="false">
-                    <c-menu-button mx="1" variant-color="red">
-                    Register
-                    </c-menu-button>
-                </c-menu>
-            </router-link>
-        </div>
-  
-        <div v-if="isLogin()">
-            <router-link to="/login">
-                <c-menu :close-on-select="false">
-                    <c-menu-button mx="1" variant-color="red">
-                    Login
-                    </c-menu-button>
-                </c-menu>
-            </router-link>
-        </div>
-      </c-flex>
-
       </c-simple-grid>
-      
       <router-view/>
     </div>
   </template>
@@ -225,10 +217,10 @@
       async created(){
           console.log("App Created");
 
-          // localStorage.setItem('logedIn', JSON.stringify("no"));
-          // localStorage.setItem('open', JSON.stringify("no"));
-          // localStorage.setItem('close', JSON.stringify("yes"));
-          // localStorage.setItem('logedOut', JSON.stringify("yes"));
+        //   localStorage.setItem('logedIn', JSON.stringify("no"));
+        //   localStorage.setItem('open', JSON.stringify("no"));
+        //   localStorage.setItem('close', JSON.stringify("yes"));
+        //   localStorage.setItem('logedOut', JSON.stringify("yes"));
 
 
 

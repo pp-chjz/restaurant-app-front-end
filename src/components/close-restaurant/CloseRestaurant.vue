@@ -1,18 +1,9 @@
 <template>
-   <div class="scroll-bg">
-    <c-heading color="white" mt="10%" fontSize="6xl">
-      Close Restaurant 
-    </c-heading>
-
-    <c-heading color="white" mt="3%" size="2xl">
-      at {{ timestamp }}
-    </c-heading>
-
-    <div>
-      <c-button class="button" @click='close()' width="25%" mt="10%" variant-color="yellow" height="60px" variant="solid" size="lg">
-        Confirm
-      </c-button> 
-    </div>
+  <div>
+    ปิดร้านวันที่ {{  timestamp }}
+    <c-button @click='close()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
+                ยืนยัน
+    </c-button> 
 
   </div>
 </template>
