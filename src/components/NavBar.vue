@@ -217,10 +217,10 @@
       async created(){
           console.log("App Created");
 
-        //   localStorage.setItem('logedIn', JSON.stringify("no"));
-        //   localStorage.setItem('open', JSON.stringify("no"));
-        //   localStorage.setItem('close', JSON.stringify("yes"));
-        //   localStorage.setItem('logedOut', JSON.stringify("yes"));
+          // localStorage.setItem('logedIn', JSON.stringify("no"));
+          // localStorage.setItem('open', JSON.stringify("no"));
+          // localStorage.setItem('close', JSON.stringify("yes"));
+          // localStorage.setItem('logedOut', JSON.stringify("yes"));
 
 
 
