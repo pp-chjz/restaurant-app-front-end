@@ -1,9 +1,18 @@
 <template>
-  <div>
-    เปิดร้านวันที่ {{  timestamp }}
-    <c-button @click='open()' mt="2rem" width="full" variant-color="yellow" variant="solid" size="lg">
-                ยืนยัน
-    </c-button> 
+  <div class="scroll-bg">
+    <c-heading color="white" mt="10%" fontSize="6xl">
+      Open Restaurant 
+    </c-heading>
+
+    <c-heading color="white" mt="3%" size="2xl">
+      at {{ timestamp }}
+    </c-heading>
+
+    <div>
+      <c-button class="button" @click='open()' width="25%" mt="10%" variant-color="yellow" height="60px"  variant="solid" size="lg">
+        Confirm
+      </c-button> 
+    </div>
 
   </div>
 </template>
@@ -21,7 +30,7 @@ import { CInput,CSelect,CNumberInput,
     CNumberDecrementStepper, CStack,
     CButton, CImage, CSimpleGrid, CBox,
     CBadge, CFlex, CText, CHeading, CIcon,  CGrid, CGridItem,
-    CTextarea, CIconButton ,CFormControl ,
+    CTextarea, CIconButton, CFormControl, 
     } from "@chakra-ui/vue";
 export default {
     components: {
@@ -69,5 +78,25 @@ export default {
 </script>
 
 <style>
+
+@keyframes scrollBg {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-330px);
+  }
+}
+
+.scroll-bg {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  padding-bottom: 330px;
+  background-color: #E8BA9B;
+  background-image: url('https://andreivictor.ro/codepen/scroll-bg-animation-pinterest/bg_pasta_grid-3f880df3.jpg');
+  background-size: cover;
+  
+}
 
 </style>

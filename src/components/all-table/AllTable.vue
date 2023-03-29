@@ -99,7 +99,6 @@
     </div>
     </c-simple-grid>
     </c-box>
-    {{ tables.data }}
   </div>
   
 </template>
