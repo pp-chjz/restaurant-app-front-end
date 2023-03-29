@@ -53,6 +53,13 @@
 
         </div>
 
+        <br>
+        <c-text>Summary Menu</c-text>
+        <div v-for="index in menus.data" :key="index.id">
+            <c-text> {{ index.name_ENG  }}  {{ index.sort_menu  }}</c-text>
+
+        </div>
+
 
     </div>
 </template>
@@ -60,6 +67,8 @@
 <script>
 import OrderApi from "@/store/OrderApi.js"
 import IngredientApi from "@/store/IngredientApi.js"
+import MenuApi from "@/store/MenuApi.js"
+
 
 import { CInput,CSelect,CNumberInput,
   CNumberInputField,
@@ -118,6 +127,13 @@ export default {
                 count:0},
               ],
 
+              menus:{},
+              menu_array:[],
+              menu_count:{
+                name:"",
+                count:0,
+              },
+
           }
       },
     async created(){
@@ -128,6 +144,10 @@ export default {
         this.payloadTotalOrders.type = "day"
         await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
         await IngredientApi.dispatch("fetchIngredient")
+        await MenuApi.dispatch("fetchMenu")
+        this.menus = MenuApi.getters.getMenus
+        this.countMenu()
+
         this.countCatagory()
 
 
@@ -282,6 +302,44 @@ export default {
                 this.totalRevenue += orders.data[i].total_price
             }
         },
+        async countMenu(){
+            await OrderApi.dispatch("fetchTotalCatagoryByDate",this.payloadTotalOrders)
+            this.totalCatagory = OrderApi.getters.getTotalCatagoryByDate
+
+            for(let i = 0 ; i < this.totalCatagory.data.length ; i++)
+            {
+                console.log("name_ENG ======= " , this.totalCatagory.data[i].name_ENG_dashboard)
+
+                for(let j = 0 ; j < this.menus.data.length ; j++)
+                {
+                    console.log("name_ENG = " , this.totalCatagory.data[i].name_ENG_dashboard)
+                    console.log("this.menus[j].data.name = " , this.menus.data[j].name_ENG)
+
+                    if(this.totalCatagory.data[i].name_ENG_dashboard == this.menus.data[j].name_ENG)
+                    {
+                        if(this.totalCatagory.data[i].QTY > 1)
+                        {
+                            console.log("if name =",this.totalCatagory.data[i].name_ENG_dashboard)
+                            console.log("if QTY =",this.totalCatagory.data[i].QTY)
+                            this.menus.data[j].sort_menu += this.totalCatagory.data[i].QTY
+                        }
+                        else
+                        {
+                            console.log("else name =",this.totalCatagory.data[i].name_ENG_dashboard)
+                            console.log("else QTY =",this.totalCatagory.data[i].QTY)
+                            this.menus.data[j].sort_menu += this.totalCatagory.data[i].QTY
+
+
+                        }
+                    }
+                    
+                }
+            }
+
+            this.menus.data.sort((a, b) => b.sort_menu - a.sort_menu);
+
+
+        },
         async countCatagory(){
             this.catagory_count = [
                 {name:"food",
@@ -302,12 +360,23 @@ export default {
                     // console.log("this.catagory_count = ", this.catagory_count[j].name)
                     if(this.totalCatagory.data[i].catagories_dashboard == this.catagory_count[j].name)
                     {
-                        this.catagory_count[j].count += 1
+                        if(this.totalCatagory.data[i].QTY >1)
+                        {
+                            this.catagory_count[j].count += this.totalCatagory.data[i].QTY
+                            
+                        }
+                        else
+                        {
+                            this.catagory_count[j].count += 1
+
+                        }
                     }
 
                     // this.ingredient_array.push(this.ingredient_count)
                 }
             }
+
+            this.catagory_count.sort((a, b) => b.count - a.count);
             // console.log("this.catagory_count = ", this.catagory_count)
         }
     }
