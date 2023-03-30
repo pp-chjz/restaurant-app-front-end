@@ -1,17 +1,34 @@
 <template>
-    <div>
+    <div >
+        <c-box 
+            px="4rem" 
+            py="10px"
+            width="full" 
+            maxWidth="500vh"
+            bg="#1F1D2B"
+        >
         <c-heading
             size="xl"
-            mr="85%"
+            mr="83%"
             mt="2rem"
-            color="black"
+            color="white"
             opacity="0.8"
             fontWeight="bold"
             lineHeight="1.5"
+        > Dashboard </c-heading>
+
+        <c-heading
+            size="lg"
+            mr="77%"
+            mt="1rem"
+            color="white"
+            opacity="0.8"
+            lineHeight="1.5"
             white-space="pre-line"
-            >
-        {{ "Summaries : " }} {{ summary_text }}
+        > {{ "Summaries : " }} {{ summary_text }}
         </c-heading>
+        <c-divider mt="1%" border-color="white" />
+
         <c-flex ml="3%" mt="4%" align="center" mb="5%">
         
             <c-box >
@@ -23,15 +40,13 @@
                 </c-select>
             </c-box>
 
-            <div  >
-                <date-pick
-                border="2px"
-                v-model="dateSelectValue"
-                :format="'YYYY-MM-DD'"
-                ></date-pick>
-                {{ dateSelectValue }}
-            </div>
             
+                <date-pick
+                    class="date"
+                    v-model="dateSelectValue"
+                    :format="'YYYY-MM-DD'"
+                >
+                </date-pick>
             
             <c-button @click='search()'  width="full" color="#2D3748" size="md" variant="solid" w="7%" ml="2%">
                 search
@@ -42,24 +57,57 @@
         </c-flex>
 
 
-        <br>
-        <c-text>Total Order : {{ totalOrdersCount  }}</c-text>
-        <c-text>Total Revenue : {{ totalRevenue  }} Baht</c-text>
+        <c-flex ml="%">
+            <c-box class="total" mx="40px" bg="white" border-width="3px" rounded="lg" overflow="hidden" border-color="white">
+                <c-flex>
+                    <c-text color="black" fontSize="2xl" fontWeight="bold"> {{ totalRevenue }} </c-text> 
+                    <c-text fontSize="xl" fontWeight="bold" mx="4%" mt="4%">Baht </c-text>
+                </c-flex>
+                
+                <c-text color="black" > Total Revenue </c-text> 
+            </c-box>
+
+            <c-box class="total" bg="white" border-width="3px" rounded="lg" overflow="hidden" border-color="white">
+                <c-text fontSize="2xl" fontWeight="bold"> {{ totalOrdersCount  }} </c-text>
+                <c-text color="black" > Total Order </c-text> 
+            </c-box>
+            
+        </c-flex>
         
         <br>
-        <c-text>Summary Catagory</c-text>
-        <div v-for="index in catagory_count" :key="index.id">
-            <c-text> {{ index.name  }}  {{ index.count  }}</c-text>
-
-        </div>
+        <c-box class="summary" ml="3%" mt="1%" border-width="3px" rounded="lg" overflow="hidden" border-color="white">
+            <c-text color="black" fontSize="2xl" fontWeight="bold">Most Type Of Order</c-text>
+            <img class="image_chart" style="width:45%;" src="@/assets/chart.png"/>
+            <c-simple-grid  ml="5%" spacing="8" >
+               
+                <div v-for="index in catagory_count" :key="index.id">
+                    
+                    <c-text fontSize="xl" fontWeight="bold" color="black" mr="70%"> {{ index.name }} </c-text>
+                    <c-text fontSize="lg" color="black"> {{ index.count }} dished ordered</c-text>
+                </div>
+            </c-simple-grid>
+            
+        </c-box>
+        <!-- <c-divider mt="1%" border-color="white" /> -->
 
         <br>
-        <c-text>Summary Menu</c-text>
-        <div v-for="index in menus.data" :key="index.id">
-            <c-text> {{ index.name_ENG  }}  {{ index.sort_menu  }}</c-text>
+        <c-box class="sum_menu" border-color="white" border-width="3px" rounded="lg" overflow="hidden" >
+            <c-text color="black" fontSize="2xl" fontWeight="bold">Most Ordered</c-text>
+            
+            <c-simple-grid  spacing="8" mt="5%" >
+                <div v-for="index in menus.data" :key="index.id" >
+                    <c-flex w="120%">
+                        <c-image src="gibberish.png" fallback-src="https://via.placeholder.com/50" rounded="full" />
+                        <c-text color="black" mt="3%" mx="10%"> {{ index.name_ENG  }}</c-text>
+                        
+                        <c-text  color="black" mt="3%" mx="5%"> {{ index.sort_menu  }} </c-text>
+                    </c-flex>
+                        
+                </div>
+            </c-simple-grid>
 
-        </div>
-
+        </c-box>
+    </c-box>
 
     </div>
 </template>
@@ -68,18 +116,19 @@
 import OrderApi from "@/store/OrderApi.js"
 import IngredientApi from "@/store/IngredientApi.js"
 import MenuApi from "@/store/MenuApi.js"
-
-
-import { CInput,CSelect,CNumberInput,
-  CNumberInputField,
-  CNumberInputStepper,
-  CNumberIncrementStepper,
-  CNumberDecrementStepper,
-  CButton, CImage, CSimpleGrid, CBox,
-  CBadge, CFlex, CText, CHeading, CIcon,
-  } from "@chakra-ui/vue";
 import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
+
+import { CInput,CSelect,CNumberInput,
+        CNumberInputField,
+        CNumberInputStepper,
+        CNumberIncrementStepper,
+        CNumberDecrementStepper,
+        CButton, CImage, CSimpleGrid, CBox,
+        CBadge, CFlex, CText, CHeading, CIcon,
+        CStatNumber, CDivider, CStack
+} from "@chakra-ui/vue";
+
 
 export default {
     components: {
@@ -89,9 +138,10 @@ export default {
         CNumberInputField,
         CNumberInputStepper,
         CNumberIncrementStepper,
-        CNumberDecrementStepper,
+        CNumberDecrementStepper, CDivider,
         CButton, CText, CHeading, CIcon,
-        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex , DatePick
+        CImage, CSimpleGrid ,CBox ,CBadge ,CFlex , DatePick,
+        CStatNumber, CStack
 
     },
     data(){
@@ -144,8 +194,7 @@ export default {
         this.payloadTotalOrders.type = "day"
         await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
         await IngredientApi.dispatch("fetchIngredient")
-        await MenuApi.dispatch("fetchMenu")
-        this.menus = MenuApi.getters.getMenus
+        
         this.countMenu()
 
         this.countCatagory()
@@ -192,6 +241,8 @@ export default {
                     this.payloadTotalOrders.timestamp = this.timestamp
                     this.payloadTotalOrders.type = "day"
                     this.countCatagory()
+                    this.countMenu()
+
 
                     await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
                     this.totalOrders = OrderApi.getters.getTotalOrdersByDate
@@ -207,7 +258,7 @@ export default {
                     this.payloadTotalOrders.timestamp = this.month_use
                     this.payloadTotalOrders.type = "week"
                     this.countCatagory()
-                    
+                    this.countMenu()
                     await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
                     this.totalOrders = OrderApi.getters.getTotalOrdersByDate
                     this.totalOrders = this.totalOrders.data
@@ -228,6 +279,7 @@ export default {
                     this.payloadTotalOrders.timestamp = this.month_use
                     this.payloadTotalOrders.type = "month"
                     this.countCatagory()
+                    this.countMenu()
 
                     await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
                     this.totalOrders = OrderApi.getters.getTotalOrdersByDate
@@ -248,7 +300,7 @@ export default {
                     this.payloadTotalOrders.timestamp = this.year_use
                     this.payloadTotalOrders.type = "year"
                     this.countCatagory()
-
+                    this.countMenu()
                     await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
                     this.totalOrders = OrderApi.getters.getTotalOrdersByDate
                     this.totalOrders = this.totalOrders.data
@@ -265,7 +317,7 @@ export default {
                 this.payloadTotalOrders.timestamp = this.dateSelectValue
                 this.payloadTotalOrders.type = "day"
                 this.countCatagory()
-
+                this.countMenu()
                 await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
                 this.totalOrders = OrderApi.getters.getTotalOrdersByDate
                 this.totalOrders = this.totalOrders.data
@@ -284,7 +336,7 @@ export default {
             this.payloadTotalOrders.timestamp = this.timestamp
             this.payloadTotalOrders.type = "day"
             this.countCatagory()
-
+            this.countMenu()
             await OrderApi.dispatch("fetchTotalOrdersByDate",this.payloadTotalOrders)
             this.totalOrders = OrderApi.getters.getTotalOrdersByDate
             this.totalOrders = this.totalOrders.data
@@ -303,6 +355,8 @@ export default {
             }
         },
         async countMenu(){
+            await MenuApi.dispatch("fetchMenu")
+            this.menus = MenuApi.getters.getMenus
             await OrderApi.dispatch("fetchTotalCatagoryByDate",this.payloadTotalOrders)
             this.totalCatagory = OrderApi.getters.getTotalCatagoryByDate
 
@@ -384,5 +438,48 @@ export default {
 </script>
 
 <style>
+.date {
+   font-size: 16px;
+   margin-left: 2%;
+}
 
+.total {
+    /* display: flex; */
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 66px;
+    gap: 8px;
+    width: 249px;
+    height: 143px;
+}
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 24px;
+    background-color: rgb(132, 233, 194);
+    width: 372px;
+    height: 500px;
+    top: 409px;
+}
+
+.sum_menu {
+    background-color: rgb(207, 140, 58);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 20px;
+    position: absolute;
+    width: 372px;
+    height: 596px;
+    left: 45%;
+    top: 425px;
+}
+
+.image_chart {
+    margin-left: 25%;
+}
 </style>

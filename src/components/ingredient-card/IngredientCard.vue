@@ -39,13 +39,15 @@
                     {{ ingredient.ingredient_name_ENG }} | {{ ingredient.ingredient_name_TH }}
                 </c-box>
 
+                <c-box w="42%" ml="55%" mb="3%" mt="9%">
+                        <c-select v-model="status" placeholder="Select Status"  size="md" mt="12%" borderColor="gray.800">
+                            <option value="1">In Stock</option>
+                            <option value="2">Out Of Stock</option>
+                        </c-select>
+                </c-box>
+
                 <c-flex jusify="center">
-                    <c-box w="162%">
-                    <c-select v-model="status" placeholder="Select Status"  size="md" mt="12%" borderColor="gray.800">
-                        <option value="1">In Stock</option>
-                        <option value="2">Out Of Stock</option>
-                    </c-select>
-                    </c-box>
+                    
 
                     <c-button @click="editStatus(ingredient.id)" ml="4%" w="100rem" mt="1rem" size="lg" variant-color="orange" >
                         Edit status

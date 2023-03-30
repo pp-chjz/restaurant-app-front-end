@@ -1,8 +1,8 @@
 <template>
     <div id="app">
       <c-simple-grid
-      class="navbar"
-      :columns="[1]"
+        class="navbar"
+        :columns="[1]"
         as="nav"
         px="2vw"
         py="5"
@@ -15,6 +15,7 @@
       >
       
       <c-flex
+          mr="85%"
           wrap="wrap"
           justify="center"
           :direction="['column', 'row', 'row', 'row']"
@@ -37,7 +38,7 @@
   
         <div v-if="isLogin()">
             <router-link to="/register">
-                <c-menu :close-on-select="false">
+                <c-menu :close-on-select="false" >
                     <c-menu-button mx="1" variant-color="red">
                     Register
                     </c-menu-button>
@@ -141,7 +142,7 @@
           <router-link to="/checkBillView">
             <c-menu :close-on-select="false">
               <c-menu-button mx="1" variant-color="red">
-                Checkbill
+                Check Bill
               </c-menu-button>
             </c-menu>
           </router-link>
